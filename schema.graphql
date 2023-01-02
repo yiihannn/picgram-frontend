@@ -1,0 +1,375 @@
+type Query {
+  user(
+    """The ID of the object"""
+    id: ID!
+  ): UserNode
+  getUsers(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, username: String, email: String): UserNodeConnection
+  photo(
+    """The ID of the object"""
+    id: ID!
+  ): PhotoNode
+  getPhotos(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+    id: ID
+    user: ID
+    fileName: String
+    userIn: String
+
+    """Ordering"""
+    orderBy: String
+  ): PhotoNodeConnection
+  tag(
+    """The ID of the object"""
+    id: ID!
+  ): TagNode
+  getTags(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+    id: ID
+    name: String
+
+    """Ordering"""
+    orderBy: String
+  ): TagNodeConnection
+}
+
+type UserNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  password: String!
+  lastLogin: DateTime
+
+  """
+  Designates that this user has all permissions without explicitly assigning them.
+  """
+  isSuperuser: Boolean!
+
+  """Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."""
+  username: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+
+  """Designates whether the user can log into this admin site."""
+  isStaff: Boolean!
+
+  """
+  Designates whether this user should be treated as active. Unselect this instead of deleting accounts.
+  """
+  isActive: Boolean!
+  dateJoined: DateTime!
+  profile: ProfileNode
+  followingUser(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, user: ID): ProfileNodeConnection!
+  followedByUser(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, user: ID): ProfileNodeConnection!
+  commentSet(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, user: ID): CommentNodeConnection!
+  userPhotos(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+    id: ID
+    user: ID
+    fileName: String
+    userIn: String
+
+    """Ordering"""
+    orderBy: String
+  ): PhotoNodeConnection
+  userLikesPhoto(offset: Int, before: String, after: String, first: Int, last: Int): PhotoNodeConnection!
+  mentionedByPhoto(offset: Int, before: String, after: String, first: Int, last: Int): PhotoNodeConnection!
+  activitySet(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, user: ID, category: String): ActivityNodeConnection!
+}
+
+"""An object with an ID"""
+interface Node {
+  """The ID of the object"""
+  id: ID!
+}
+
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+type ProfileNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  user: UserNode!
+  avatar: String!
+  location: String!
+  description: String!
+  occupation: String!
+  follower(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, username: String, email: String): UserNodeConnection!
+  following(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, username: String, email: String): UserNodeConnection!
+  followingCount: Int
+  followerCount: Int
+}
+
+type UserNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [UserNodeEdge]!
+}
+
+"""
+The Relay compliant `PageInfo` type, containing data necessary to paginate this connection.
+"""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""A Relay edge containing a `UserNode` and its cursor."""
+type UserNodeEdge {
+  """The item at the end of the edge"""
+  node: UserNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type ProfileNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [ProfileNodeEdge]!
+}
+
+"""A Relay edge containing a `ProfileNode` and its cursor."""
+type ProfileNodeEdge {
+  """The item at the end of the edge"""
+  node: ProfileNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type CommentNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [CommentNodeEdge]!
+}
+
+"""A Relay edge containing a `CommentNode` and its cursor."""
+type CommentNodeEdge {
+  """The item at the end of the edge"""
+  node: CommentNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type CommentNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  user: UserNode!
+  photo: PhotoNode!
+  comment: String!
+  dateTime: DateTime!
+}
+
+type PhotoNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  user: UserNode!
+  fileName: String!
+  caption: String!
+  location: String!
+  dateTime: DateTime!
+  liked(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, username: String, email: String): UserNodeConnection!
+  mentions(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, username: String, email: String): UserNodeConnection!
+  commentSet(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, user: ID): CommentNodeConnection!
+  tagSet(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, name: String, photo: ID): TagNodeConnection!
+  likedCount: Int
+  isLikedByCurr: Boolean
+}
+
+type TagNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [TagNodeEdge]!
+}
+
+"""A Relay edge containing a `TagNode` and its cursor."""
+type TagNodeEdge {
+  """The item at the end of the edge"""
+  node: TagNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type TagNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  name: String!
+  photo(offset: Int, before: String, after: String, first: Int, last: Int): PhotoNodeConnection!
+  photoCount: Int
+}
+
+type PhotoNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [PhotoNodeEdge]!
+}
+
+"""A Relay edge containing a `PhotoNode` and its cursor."""
+type PhotoNodeEdge {
+  """The item at the end of the edge"""
+  node: PhotoNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type ActivityNodeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [ActivityNodeEdge]!
+}
+
+"""A Relay edge containing a `ActivityNode` and its cursor."""
+type ActivityNodeEdge {
+  """The item at the end of the edge"""
+  node: ActivityNode
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type ActivityNode implements Node {
+  """The ID of the object"""
+  id: ID!
+  user: UserNode!
+  dateTime: DateTime!
+  category: String!
+  content: JSONString!
+}
+
+"""
+Allows use of a JSON String for input / output from the GraphQL schema.
+
+Use of this type is *not recommended* as you lose the benefits of having a defined, static
+schema (one of the key benefits of GraphQL).
+"""
+scalar JSONString
+
+type Mutation {
+  logIn(input: LogInInput!): LogInPayload
+  signUp(input: SignUpInput!): SignUpPayload
+  logOut(input: LogOutInput!): LogOutPayload
+  likePhoto(input: LikePhotoInput!): LikePhotoPayload
+  makeComment(input: MakeCommentInput!): MakeCommentPayload
+  uploadPhoto(input: UploadPhotoInput!): UploadPhotoPayload
+}
+
+type LogInPayload {
+  user: UserNode
+  clientMutationId: String
+}
+
+input LogInInput {
+  username: String!
+  password: String!
+  clientMutationId: String
+}
+
+type SignUpPayload {
+  user: UserNode
+  clientMutationId: String
+}
+
+input SignUpInput {
+  username: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  email: String!
+  location: String!
+  description: String!
+  occupation: String!
+  clientMutationId: String
+}
+
+type LogOutPayload {
+  code: Int
+  msg: String
+  clientMutationId: String
+}
+
+input LogOutInput {
+  clientMutationId: String
+}
+
+type LikePhotoPayload {
+  code: Int
+  msg: String
+  clientMutationId: String
+}
+
+input LikePhotoInput {
+  photoId: String!
+  clientMutationId: String
+}
+
+type MakeCommentPayload {
+  code: Int
+  msg: String
+  clientMutationId: String
+}
+
+input MakeCommentInput {
+  photoId: String!
+  content: String!
+  clientMutationId: String
+}
+
+type UploadPhotoPayload {
+  code: Int
+  msg: String
+  clientMutationId: String
+}
+
+input UploadPhotoInput {
+  uploadPhoto: Upload!
+  caption: String
+  location: String
+  tags: [String]
+  clientMutationId: String
+}
+
+"""
+Create scalar that ignores normal serialization/deserialization, since
+that will be handled by the multipart request spec
+"""
+scalar Upload
