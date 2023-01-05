@@ -3,7 +3,19 @@ type Query {
     """The ID of the object"""
     id: ID!
   ): UserNode
-  getUsers(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, username: String, email: String): UserNodeConnection
+  getUsers(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+    id: ID
+    username: String
+    nameContain: String
+
+    """Ordering"""
+    orderBy: String
+  ): UserNodeConnection
   photo(
     """The ID of the object"""
     id: ID!
@@ -16,8 +28,8 @@ type Query {
     last: Int
     id: ID
     user: ID
-    fileName: String
     userIn: String
+    tagsContain: String
 
     """Ordering"""
     orderBy: String
@@ -77,8 +89,8 @@ type UserNode implements Node {
     last: Int
     id: ID
     user: ID
-    fileName: String
     userIn: String
+    tagsContain: String
 
     """Ordering"""
     orderBy: String
@@ -206,6 +218,7 @@ type PhotoNode implements Node {
   tagSet(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, name: String, photo: ID): TagNodeConnection!
   likedCount: Int
   isLikedByCurr: Boolean
+  photoUrl: String
 }
 
 type TagNodeConnection {

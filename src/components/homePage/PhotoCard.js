@@ -53,7 +53,7 @@ export const PhotoCard = ({index, photoData, handleOpen}) => {
             }}>
                 <CardMedia
                     component={"img"}
-                    src={`/images/${photoData.fileName}`}
+                    src={`${photoData.photoUrl}`}
                     sx={{width: '100%', height: 'auto', objectFit: 'cover', border: 'none'}}
                 />
             </Box>

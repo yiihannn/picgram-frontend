@@ -18,11 +18,12 @@ import {useContext, useState} from "react";
 import {AppContext} from "../../App";
 import {LOG_OUT} from "../../graphql/Mutations";
 import {useMutation} from "@apollo/client";
-import {useNavigate} from "react-router-dom";
+import {createSearchParams, useNavigate} from "react-router-dom";
 import {stringAvatar} from "../utils";
 import SearchIcon from "@mui/icons-material/Search";
 import {styled} from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import {useForm} from "react-hook-form";
 
 
 const pages = ['Explore', 'Home'];
@@ -66,6 +67,12 @@ export const TopBar = () => {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const {currPage, setCurrPage, currUser, setCurrUser} = useContext(AppContext);
     const navigate = useNavigate();
+    const { register, resetField, handleSubmit, clearErrors} = useForm({
+        defaultValues: {
+            keywords: "",
+            customError: ""
+        }
+    });
 
     const [userLogOut] = useMutation(LOG_OUT, {
         onCompleted(data) {
@@ -132,13 +139,26 @@ export const TopBar = () => {
                     flexGrow: 1, display: 'flex', flexDirection: 'row',
                     alignItems: 'center', justifyContent: 'flex-start',
                 }}>
-                    <Search>
+                    <Search onSubmit={handleSubmit((data) => {
+                        console.log(data);
+                        if (data.keywords !== "") {
+                            const params = {keywords: data.keywords};
+                            navigate({
+                                pathname: '/search',
+                                search: `?${createSearchParams(params)}`
+                            });
+                            resetField("keywords");
+                        }
+                        resetField("customError");
+                        clearErrors(["keywords", "customError"]);
+                    })}>
                         <SearchIconWrapper>
                             <SearchIcon sx={{color: "#767676"}}/>
                         </SearchIconWrapper>
                         <StyledInputBase
                             placeholder="Search…"
-                            inputProps={{'aria-label': 'search'}}
+                            inputProps={{...register("keywords",
+                                    {required: "Empty search!"}), 'aria-label': 'search'}}
                         />
                     </Search>
                 </Box>

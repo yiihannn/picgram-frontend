@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import {
-    Alert, Autocomplete,
-    Button, Chip,
+    Alert,
+    Button,
     IconButton,
     ListItem,
     ListItemAvatar,
@@ -21,11 +21,10 @@ import {createTheme} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import {useForm} from "react-hook-form";
 import {PhotoPlaceholder} from "./PhotoPlaceholder";
-import {useMutation, useQuery} from "@apollo/client";
+import {useMutation} from "@apollo/client";
 import {UPLOAD_PHOTO} from "../../graphql/Mutations";
-import {GET_ALL_TAGS, GET_USER_INFO} from "../../graphql/Queries";
-import {QueryError} from "../others/QueryError";
-import {Loading} from "../others/Loading";
+import {GET_USER_INFO} from "../../graphql/Queries";
+import {TagAutoComplete} from "./TagAutoComplete";
 
 const style = {
     position: 'absolute',
@@ -36,7 +35,9 @@ const style = {
     height: 0.8,
     backgroundColor: 'white',
     boxShadow: "none",
-    borderRadius: 6
+    borderRadius: 6,
+    alignItems: "center",
+    justifyContent: "flex-start"
 };
 
 const theme = createTheme();
@@ -57,7 +58,6 @@ export const UploadPhoto = ({closeModal}) => {
     );
 
     const photo = watch("uploadPhoto")?.[0];
-    const {loading: allTagsLoading, error: allTagsError, data: allTagsData} = useQuery(GET_ALL_TAGS);
 
     const [userUploadPhoto] = useMutation(UPLOAD_PHOTO, {
         onError({networkError, graphQLErrors}) {
@@ -75,9 +75,7 @@ export const UploadPhoto = ({closeModal}) => {
         refetchQueries: [{query: GET_USER_INFO, variables: {userId: currUser.userId}}, 'userInfo']
     });
 
-    if (allTagsLoading) return <Loading/>
-    if (allTagsError) return <QueryError errorMessage={allTagsError}/>
-    const allTags = allTagsData?.getTags.edges;
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -123,13 +121,13 @@ export const UploadPhoto = ({closeModal}) => {
                 {errors.customError?.message && (
                     <Alert severity="error">{errors.customError?.message}</Alert>)}
                 <Stack direction="row" alignItems="flex-start"
-                       sx={{width: 1, height: 1, p: 2.5, borderRadius: 'inherit'}}>
+                       sx={{width: 0.95, height: 0.95, m: 2, borderRadius: 'inherit'}}>
                     <Box component='label'
                          htmlFor="uploadPhoto"
                          sx={{
                              display: "flex", backgroundColor: photo ? "white" : theme.palette.grey.A200,
                              alignItems: "center", borderRadius: 'inherit', justifyContent: "center",
-                             width: 0.6, height: 1, mr: 0, textTransform: "none",
+                             width: 0.6, height: 1, textTransform: "none",
                              "&:hover": {
                                  cursor: "pointer",
                              }
@@ -146,10 +144,10 @@ export const UploadPhoto = ({closeModal}) => {
                         />
                     </Box>
                     <Stack justifyContent="flex-start" sx={{
-                        width: 0.4, m: 0, pl: 1, pr: 3.5, borderRadius: 'inherit', alignItems:'flex-start'
+                        width: 0.4, m: 0, ml: 1, borderRadius: 'inherit', alignItems:'flex-start'
                     }}>
-                        <List sx={{width: 1, height: 0.06}}>
-                            <ListItem sx={{pl: 1}}>
+                        <List sx={{width: 1, height: 0.06, pt: 0}}>
+                            <ListItem sx={{pl: 1, pt: 0}}>
                                 <ListItemAvatar sx={{minWidth: 40}}>
                                     <Avatar {...stringAvatar(currUser.fullName)} />
                                 </ListItemAvatar>
@@ -174,14 +172,14 @@ export const UploadPhoto = ({closeModal}) => {
                                 multiline
                                 rows={9}
                                 sx={{width: 1}}
-                                InputProps={{sx: {height: 1, p: 0, m: 1, mt: 0}}}
+                                InputProps={{sx: {height: 1, p: 0, m: 1, mt: 0, mr: 0}}}
                             />
                         </Box>
 
                         <Box sx={{width: 1, height: 0.07, display: "flex", mb: 0,
                             flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start"}}>
                             <Typography sx={{
-                                m: 1, display: "flex", verticalAlign: 'center',
+                                m: 1, ml: 0.5, display: "flex", verticalAlign: 'center',
                                 fontFamily: 'BlinkMacSystemFont',
                                 fontWeight: 'medium',
                                 fontSize: 16
@@ -198,11 +196,11 @@ export const UploadPhoto = ({closeModal}) => {
                                 id="location"
                                 placeholder="Add location..."
                                 sx={{width: 1}}
-                                InputProps={{sx: {height: 1, p: 0, m: 1, mt: 0}}}
+                                InputProps={{sx: {height: 1, p: 0, m: 1, mt: 0, mr: 0}}}
                             />
                         </Box>
                         <Typography sx={{
-                            m: 1, display: "inline-flex", verticalAlign: 'center',
+                            m: 1, ml: 0.5, display: "inline-flex", verticalAlign: 'center',
                             fontFamily: 'BlinkMacSystemFont',
                             fontWeight: 'medium',
                             fontSize: 16
@@ -210,45 +208,7 @@ export const UploadPhoto = ({closeModal}) => {
                             <TagOutlinedIcon sx={{mr: 0.5, color: "#d30c0c"}}/> Tag
                         </Typography>
                         <Box sx={{width: 1, height: 0.07}}>
-                            <Autocomplete
-                                sx={{mr: 2}}
-                                value={value}
-                                onChange={(event, newValue) => {
-                                    setValue(newValue);
-                                }}
-                                multiple
-                                id="tags-filled"
-                                options={allTags.map(tag => ({name: tag.node.name, photoCount: tag.node.photoCount}))}
-                                renderOption={(props, option) => (
-                                    <li {...props}>
-                                        <Typography component="div" sx={{
-                                            m: 1, display: "inline-flex", verticalAlign: 'center',
-                                            fontFamily: 'BlinkMacSystemFont',
-                                            fontWeight: 'medium',
-                                            fontSize: 14
-                                        }}>
-                                            {option.name}
-                                            <Avatar sx={{ml: 1, fontSize: 12, height: 20, width: 20}}>{option.photoCount}</Avatar>
-                                        </Typography>
-                                    </li>
-                                )}
-                                getOptionLabel={(option) => option.name}
-                                freeSolo
-                                renderTags={(value, getTagProps) =>
-                                    value.map((option, index) => (
-                                        <Chip variant="outlined" label={option.name}
-                                              {...getTagProps({ index })} />
-                                    ))
-                                }
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        variant="standard"
-                                        placeholder="Add your tags..."
-                                        InputProps={{...params.InputProps, sx: {height: 1, p: 0, ml: 1, mt: 0}}}
-                                    />
-                                )}
-                            />
+                            <TagAutoComplete value={value} setValue={setValue}/>
                         </Box>
                     </Stack>
                 </Stack>

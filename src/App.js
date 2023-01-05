@@ -13,6 +13,7 @@ import { createUploadLink } from "apollo-upload-client";
 import {LoginRegister} from "./components/loginRegister/LoginRegister";
 import {UserPage} from "./components/userPage/UserPage";
 import {HomePage} from "./components/homePage/HomePage";
+import {SearchPage} from "./components/searchPage/SearchPage";
 
 export const AppContext = createContext();
 
@@ -42,6 +43,7 @@ function App() {
                         <Route path="/login-register" element={<LoginRegister/>}/>
                         <Route path="/user/:userId" element={<UserPage/>}/>
                         <Route path="/home/:userId" element={<HomePage/>}/>
+                        <Route path="/search" element={<SearchPage/>}/>
                     </Routes>
                 </BrowserRouter>
             </AppContext.Provider>

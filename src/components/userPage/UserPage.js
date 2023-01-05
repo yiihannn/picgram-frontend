@@ -4,6 +4,7 @@ import Container from "@mui/material/Container";
 import {useQuery} from "@apollo/client";
 import {GET_USER_INFO} from "../../graphql/Queries";
 import {
+    Button,
     Fab,
     ImageList,
     ImageListItem,
@@ -63,8 +64,6 @@ export const UserPage = () => {
             <Stack
                 sx={{
                     bgcolor: 'background.paper',
-                    pt: 4,
-                    pb: 6,
                     alignItems: 'center',
                     justifyContent: 'center',
                 }}
@@ -74,10 +73,8 @@ export const UserPage = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'flexStart',
-                        direction: 'column',
-                        maxWidth: 'sm'
+                        maxWidth: 'sm',
                     }}
-                    spacing={1}
                 >
                     <Avatar {...stringAvatar(name)} sx={{
                         ...stringAvatar(name).sx,
@@ -87,9 +84,14 @@ export const UserPage = () => {
                     <Typography variant="subtitle1" align="center" color="text.secondary">
                         {"@" + userData.user.username}
                     </Typography>
+                    <Stack sx={{m: 1}} direction="row" alignItems="center" justifyContent="center">
+                        <Button sx={{fontSize: 16, color:"text.primary", textTransform: "none", p: 0}}>1 follower</Button>
+                        <Typography>·</Typography>
+                        <Button sx={{fontSize: 16, color:"text.primary", textTransform: "none", p: 0}}>5 following</Button>
+                    </Stack>
                     {currUser?.userId === userId && (
                         <Stack
-                            sx={{pt: 3}}
+                            sx={{m: 1}}
                             direction="row"
                             spacing={2}
                             justifyContent="center"
@@ -118,12 +120,12 @@ export const UserPage = () => {
                     {photos.map((item) => (
                         <ImageListItem key={item.node?.id}>
                             <img
-                                src={`/images/${item.node?.fileName}`}
-                                srcSet={`/images/${item.node?.fileName}`}
-                                alt={item.node?.fileName}
+                                src={`${item.node?.photoUrl}`}
+                                srcSet={`${item.node?.photoUrl}`}
+                                alt={item.node?.photoUrl}
                                 loading="lazy"
                                 onClick={() => handleOpen(item.node?.id)}
-                                style={{borderRadius: 25}}
+                                style={{borderRadius: '30px', width: '220px', height:'300px'}}
                             />
                         </ImageListItem>
                     ))}

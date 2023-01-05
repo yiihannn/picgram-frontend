@@ -46,9 +46,9 @@ export const Explore = () => {
                     {photos.map((item) => (
                         <ImageListItem key={item.node?.id}>
                             <img
-                                src={`/images/${item.node?.fileName}`}
-                                srcSet={`/images/${item.node?.fileName}`}
-                                alt={item.node?.fileName}
+                                src={`${item.node?.photoUrl}`}
+                                srcSet={`${item.node?.photoUrl}`}
+                                alt={item.node?.photoUrl}
                                 loading="lazy"
                                 onClick={() => handleOpen(item.node?.id)}
                                 style={{borderRadius: '30px'}}
@@ -65,7 +65,5 @@ export const Explore = () => {
                 <Box><PhotoPage photoId={openedPhoto}/></Box>
             </Modal>
         </ThemeProvider>
-
-
     )
 }

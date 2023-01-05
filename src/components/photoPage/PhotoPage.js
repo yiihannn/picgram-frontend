@@ -37,7 +37,7 @@ export const PhotoPage = ({photoId}) => {
             }}>
                 <CardMedia
                     component={"img"}
-                    src={`/images/${photoData.photo.fileName}`}
+                    src={`${photoData.photo.photoUrl}`}
                     sx={{width: '100%', height: '100%', objectFit: 'contain', border: 'none'}}
                 />
             </Box>

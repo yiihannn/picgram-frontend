@@ -15,7 +15,7 @@ export const GET_USER_INFO = gql`
                 edges {
                     node {
                         id
-                        fileName
+                        photoUrl
                         dateTime
                         commentSet{
                             edges {
@@ -46,7 +46,7 @@ export const GET_PHOTO_DETAILS = gql`
                 firstName
                 lastName
             }
-            fileName
+            photoUrl
             dateTime
             likedCount
             isLikedByCurr
@@ -74,7 +74,7 @@ export const GET_ALL_PHOTOS = gql`
             edges {
                 node {
                     id
-                    fileName
+                    photoUrl
                 }
             }
         }
@@ -107,7 +107,7 @@ export const GET_FOLLOWING_PHOTOS = gql`
             edges {
                 node {
                     id
-                    fileName
+                    photoUrl
                     dateTime
                     likedCount
                     isLikedByCurr
@@ -141,6 +141,34 @@ export const GET_ALL_TAGS = gql`
                 node {
                     name
                     photoCount
+                }
+            }
+        }
+    }
+`
+
+export const SEARCH_PHOTOS = gql`
+    query searchPhotos($keywords: String){
+        getPhotos(tagsContain: $keywords){
+            edges {
+                node{
+                    id
+                    photoUrl
+                }
+            }
+        }
+    }
+`
+
+export const SEARCH_USERS = gql`
+    query searchUsers($keywords: String){
+        getUsers(nameContain: $keywords){
+            edges {
+                node {
+                    id
+                    username
+                    firstName
+                    lastName
                 }
             }
         }
