@@ -6,9 +6,12 @@ import {useForm} from "react-hook-form";
 import {useMutation} from "@apollo/client";
 import {MAKE_COMMENT} from "../../graphql/Mutations";
 import {GET_PHOTO_DETAILS} from "../../graphql/Queries";
+import {useNavigate} from "react-router-dom";
 
 
 export const MakeComment = ({photoId}) => {
+    const navigate = useNavigate();
+
     const {
         register, resetField, handleSubmit, watch, setError,
         formState: {errors}, clearErrors
@@ -27,7 +30,8 @@ export const MakeComment = ({photoId}) => {
             if (graphQLErrors) {
                 graphQLErrors.forEach(err => {
                     if (err.extensions?.code === 1004) {
-                        setError("customError", {type: "graphql", message: "No user logged in!"});
+                        setError("customError", {type: "graphql", message: "Login session expired!"});
+                        navigate("/login-register");
                     }
                 });
             }

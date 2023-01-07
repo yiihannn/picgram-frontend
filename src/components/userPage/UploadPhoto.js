@@ -25,6 +25,7 @@ import {useMutation} from "@apollo/client";
 import {UPLOAD_PHOTO} from "../../graphql/Mutations";
 import {GET_USER_INFO} from "../../graphql/Queries";
 import {TagAutoComplete} from "./TagAutoComplete";
+import {useNavigate} from "react-router-dom";
 
 const style = {
     position: 'absolute',
@@ -45,6 +46,7 @@ const theme = createTheme();
 export const UploadPhoto = ({closeModal}) => {
     const {currUser} = useContext(AppContext);
     const [value, setValue] = useState([]);
+    const navigate = useNavigate();
 
     const {register, handleSubmit, watch, resetField, setError, formState: {errors}, clearErrors} = useForm(
         {
@@ -67,7 +69,8 @@ export const UploadPhoto = ({closeModal}) => {
             if (graphQLErrors) {
                 graphQLErrors.forEach(err => {
                     if (err.extensions?.code === 1004) {
-                        setError("customError", {type: "graphql", message: "No user logged in!"});
+                        setError("customError", {type: "graphql", message: "Login session expired!"});
+                        navigate("/login-register");
                     }
                 });
             }

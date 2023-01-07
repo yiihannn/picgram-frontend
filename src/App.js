@@ -1,5 +1,5 @@
 import './App.css';
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import {MainPage} from "./components/explorePage/MainPage"
 import {TopBar} from "./components/topBar/TopBar"
 import {useState, createContext, useEffect} from "react";
@@ -39,11 +39,11 @@ function App() {
                 <BrowserRouter>
                     {currUser !== null && <TopBar/>}
                     <Routes>
-                        <Route path="/" element={<MainPage/>}/>
+                        <Route path="/" element={currUser ? <MainPage/> : <Navigate to="/login-register" replace={true}/>}/>
                         <Route path="/login-register" element={<LoginRegister/>}/>
-                        <Route path="/user/:userId" element={<UserPage/>}/>
-                        <Route path="/home/:userId" element={<HomePage/>}/>
-                        <Route path="/search" element={<SearchPage/>}/>
+                        <Route path="/user/:userId" element={currUser ? <UserPage/> : <Navigate to="/login-register" replace={true}/>}/>
+                        <Route path="/home/:userId" element={currUser ? <HomePage/> : <Navigate to="/login-register" replace={true}/>}/>
+                        <Route path="/search" element={currUser ? <SearchPage/> : <Navigate to="/login-register" replace={true}/>}/>
                     </Routes>
                 </BrowserRouter>
             </AppContext.Provider>

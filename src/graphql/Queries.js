@@ -10,6 +10,8 @@ export const GET_USER_INFO = gql`
                 location
                 description
                 occupation
+                followerCount
+                followingCount
             }
             userPhotos(orderBy: "-date_time"){
                 edges {
@@ -169,6 +171,44 @@ export const SEARCH_USERS = gql`
                     username
                     firstName
                     lastName
+                }
+            }
+        }
+    }
+`
+
+export const GET_USER_FOLLOWER = gql`
+    query userFollower($userId: ID!){
+        user(id: $userId){
+            followingUser{
+                edges {
+                    node {
+                        user {
+                            id
+                            username
+                            firstName
+                            lastName
+                        }
+                    }
+                }
+            }
+        }
+    }
+`
+
+export const GET_USER_FOLLOWING = gql`
+    query userFollower($userId: ID!){
+        user(id: $userId){
+            followedByUser{
+                edges {
+                    node {
+                        user {
+                            id
+                            username
+                            firstName
+                            lastName
+                        }
+                    }
                 }
             }
         }

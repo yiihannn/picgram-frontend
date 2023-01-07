@@ -4,7 +4,6 @@ import Container from "@mui/material/Container";
 import {useQuery} from "@apollo/client";
 import {GET_USER_INFO} from "../../graphql/Queries";
 import {
-    Button,
     Fab,
     ImageList,
     ImageListItem,
@@ -22,14 +21,10 @@ import {AppContext} from "../../App";
 import {PhotoPage} from "../photoPage/PhotoPage";
 import Box from "@mui/material/Box";
 import {UploadPhoto} from "./UploadPhoto";
+import {FollowPage} from "./FollowPage";
 
 
-const theme = createTheme({
-        typography: {
-            "fontFamily": `"Roboto", "Helvetica", "Arial", sans-serif`,
-        }
-    }
-);
+const theme = createTheme();
 
 
 export const UserPage = () => {
@@ -37,6 +32,8 @@ export const UserPage = () => {
     const {currUser} = useContext(AppContext);
     const [open, setOpen] = useState(false);
     const [upload, setUpload] = useState(false);
+    const [follower, setFollower] = useState(false);
+    const [following, setFollowing] = useState(false);
     const [openedPhoto, setOpenedPhoto] = useState(null);
 
     const handleOpen = (photoId) => {
@@ -50,6 +47,15 @@ export const UserPage = () => {
     }
     const handleCloseUpload = () => setUpload(false);
 
+    const handleOpenFollower = () => {
+        setFollower(true);
+    }
+    const handleCloseFollower = () => setFollower(false);
+    const handleOpenFollowing = () => {
+        setFollower(true);
+    }
+    const handleCloseFollowing = () => setFollower(false);
+
     const {userId} = useParams();
     const {loading: userLoading, error: userInfoError, data: userData} = useQuery(GET_USER_INFO, {
         variables: {userId: userId},
@@ -58,12 +64,12 @@ export const UserPage = () => {
     if (userInfoError) return `Error in fetching user! ${userInfoError}`;
 
     const photos = userData.user.userPhotos?.edges;
+    const profile = userData.user.profile;
     const name = userData.user.firstName + " " + userData.user.lastName;
     return (
         <ThemeProvider theme={theme}>
             <Stack
                 sx={{
-                    bgcolor: 'background.paper',
                     alignItems: 'center',
                     justifyContent: 'center',
                 }}
@@ -84,10 +90,31 @@ export const UserPage = () => {
                     <Typography variant="subtitle1" align="center" color="text.secondary">
                         {"@" + userData.user.username}
                     </Typography>
+                    <Typography>{"Description: " + profile.description}</Typography>
                     <Stack sx={{m: 1}} direction="row" alignItems="center" justifyContent="center">
-                        <Button sx={{fontSize: 16, color:"text.primary", textTransform: "none", p: 0}}>1 follower</Button>
-                        <Typography>·</Typography>
-                        <Button sx={{fontSize: 16, color:"text.primary", textTransform: "none", p: 0}}>5 following</Button>
+                        <Typography
+                            onClick={handleOpenFollower}
+                            sx={{
+                            fontSize: 16, color: "text.primary", textTransform: "none", pr: 1,
+                            fontWeight: "medium",
+                            "&:hover": {
+                                cursor: "pointer",
+                            }
+                        }}>
+                            1 follower
+                        </Typography>
+                        <Typography sx={{fontSize: 16, color: "text.primary"}}>·</Typography>
+                        <Typography
+                            onClick={handleOpenFollowing}
+                            sx={{
+                            fontSize: 16, color: "text.primary", textTransform: "none", pl: 1,
+                            fontWeight: "medium",
+                            "&:hover": {
+                                cursor: "pointer",
+                            }
+                        }}>
+                            5 following
+                        </Typography>
                     </Stack>
                     {currUser?.userId === userId && (
                         <Stack
@@ -125,17 +152,13 @@ export const UserPage = () => {
                                 alt={item.node?.photoUrl}
                                 loading="lazy"
                                 onClick={() => handleOpen(item.node?.id)}
-                                style={{borderRadius: '30px', width: '220px', height:'300px'}}
+                                style={{borderRadius: '30px', width: '220px', height: '300px'}}
                             />
                         </ImageListItem>
                     ))}
                 </ImageList>
             </Container>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="image-modal"
-            >
+            <Modal open={open} onClose={handleClose} aria-labelledby="image-modal">
                 <Box>
                     <PhotoPage photoId={openedPhoto}/>
                 </Box>
@@ -143,6 +166,16 @@ export const UserPage = () => {
             <Modal open={upload} onClose={handleCloseUpload} aria-labelledby="upload-modal">
                 <Box>
                     <UploadPhoto closeModal={setUpload}/>
+                </Box>
+            </Modal>
+            <Modal open={follower} onClose={handleCloseFollower} aria-labelledby="upload-modal">
+                <Box>
+                    <FollowPage follow={"Follower"} closeModal={setFollower}/>
+                </Box>
+            </Modal>
+            <Modal open={following} onClose={handleCloseFollowing} aria-labelledby="upload-modal">
+                <Box>
+                    <FollowPage follow={"Following"} closeModal={setFollowing}/>
                 </Box>
             </Modal>
 
