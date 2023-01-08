@@ -17,7 +17,7 @@ import {AppContext} from "../../App";
 import {useMutation} from "@apollo/client";
 import {LOG_IN} from "../../graphql/Mutations";
 import {Alert} from "@mui/material";
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import Copyright from "../others/Copyright";
 
 
@@ -27,6 +27,7 @@ const theme = createTheme();
 export default function SignInSide() {
 
     const {currUser, setCurrUser, setCurrPage} = useContext(AppContext);
+    const navigate = useNavigate();
     const {register, handleSubmit, setError, formState: {errors}, clearErrors} = useForm({
         defaultValues: {
             username: "",
@@ -47,6 +48,8 @@ export default function SignInSide() {
                     fullName: name
                 };
                 setCurrUser(user);
+                setCurrPage("Explore");
+                navigate("/");
             }
         },
         onError({networkError, graphQLErrors}) {

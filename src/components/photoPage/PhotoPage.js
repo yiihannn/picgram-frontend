@@ -42,8 +42,9 @@ export const PhotoPage = ({photoId}) => {
                 />
             </Box>
             <Stack sx={{width: 0.5, height: 1}}>
-                <Box sx={{width: 1, height: 0.1}}>
-                    <PhotoOwner owner={photoData.photo.user} time={photoData.photo.dateTime}/>
+                <Box sx={{width: 1, height: 0.12}}>
+                    <PhotoOwner owner={photoData.photo.user} time={photoData.photo.dateTime}
+                                photoId={photoData.photo.id}/>
                 </Box>
                 <Divider sx={{mb: 1}}/>
                 <PhotoComments comments={comments}/>

@@ -98,6 +98,7 @@ type UserNode implements Node {
   userLikesPhoto(offset: Int, before: String, after: String, first: Int, last: Int): PhotoNodeConnection!
   mentionedByPhoto(offset: Int, before: String, after: String, first: Int, last: Int): PhotoNodeConnection!
   activitySet(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, user: ID, category: String): ActivityNodeConnection!
+  isFollowedByCurr: Boolean
 }
 
 """An object with an ID"""
@@ -304,6 +305,7 @@ type Mutation {
   likePhoto(input: LikePhotoInput!): LikePhotoPayload
   makeComment(input: MakeCommentInput!): MakeCommentPayload
   uploadPhoto(input: UploadPhotoInput!): UploadPhotoPayload
+  followUser(input: FollowUserInput!): FollowUserPayload
 }
 
 type LogInPayload {
@@ -327,10 +329,10 @@ input SignUpInput {
   firstName: String!
   lastName: String!
   password: String!
-  email: String!
-  location: String!
-  description: String!
-  occupation: String!
+  email: String
+  location: String
+  description: String
+  occupation: String
   clientMutationId: String
 }
 
@@ -386,3 +388,14 @@ Create scalar that ignores normal serialization/deserialization, since
 that will be handled by the multipart request spec
 """
 scalar Upload
+
+type FollowUserPayload {
+  code: Int
+  msg: String
+  clientMutationId: String
+}
+
+input FollowUserInput {
+  userId: String!
+  clientMutationId: String
+}

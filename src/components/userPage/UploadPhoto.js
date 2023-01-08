@@ -6,7 +6,8 @@ import {
     ListItem,
     ListItemAvatar,
     ListItemText,
-    Stack, ThemeProvider,
+    Stack,
+    ThemeProvider,
     Typography
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
@@ -26,6 +27,7 @@ import {UPLOAD_PHOTO} from "../../graphql/Mutations";
 import {GET_USER_INFO} from "../../graphql/Queries";
 import {TagAutoComplete} from "./TagAutoComplete";
 import {useNavigate} from "react-router-dom";
+import imageCompression from 'browser-image-compression'
 
 const style = {
     position: 'absolute',
@@ -45,7 +47,7 @@ const theme = createTheme();
 
 export const UploadPhoto = ({closeModal}) => {
     const {currUser} = useContext(AppContext);
-    const [value, setValue] = useState([]);
+    const [tags, setTags] = useState([]);
     const navigate = useNavigate();
 
     const {register, handleSubmit, watch, resetField, setError, formState: {errors}, clearErrors} = useForm(
@@ -79,17 +81,31 @@ export const UploadPhoto = ({closeModal}) => {
     });
 
 
-
     return (
         <ThemeProvider theme={theme}>
             <Stack component="form" sx={style}
                    onChange={() => {
                        clearErrors(["uploadPhoto", "customError"]);
                    }}
-                   onSubmit={handleSubmit((data) => {
+                   onSubmit={handleSubmit(async (data) => {
                        delete data.customError;
-                       data.uploadPhoto = data.uploadPhoto[0];
-                       data.tags = value;
+                       const options = {
+                           maxSizeMB: 0.8,
+                       }
+                       try {
+                           data.uploadPhoto = await imageCompression(data.uploadPhoto[0], options);
+                           console.log(`compressedFile size ${data.uploadPhoto.size / 1024 / 1024} MB`);
+                       } catch (error) {
+                           console.log(error);
+                       }
+                       data.tags = tags.map((tag) => {
+                           if (tag.inputValue) {
+                               tag = tag.inputValue;
+                           } else if (typeof tag !== 'string') {
+                               tag = tag.name;
+                           }
+                           return tag;
+                       });
                        userUploadPhoto({variables: {uploadInput: data}});
                        resetField("customError");
                        clearErrors(["uploadPhoto", "customError"]);
@@ -211,7 +227,7 @@ export const UploadPhoto = ({closeModal}) => {
                             <TagOutlinedIcon sx={{mr: 0.5, color: "#d30c0c"}}/> Tag
                         </Typography>
                         <Box sx={{width: 1, height: 0.07}}>
-                            <TagAutoComplete value={value} setValue={setValue}/>
+                            <TagAutoComplete value={tags} setValue={setTags}/>
                         </Box>
                     </Stack>
                 </Stack>

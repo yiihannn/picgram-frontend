@@ -1,6 +1,5 @@
 import {useParams} from "react-router-dom";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import Container from "@mui/material/Container";
 import {useQuery} from "@apollo/client";
 import {GET_USER_INFO} from "../../graphql/Queries";
 import {
@@ -51,10 +50,11 @@ export const UserPage = () => {
         setFollower(true);
     }
     const handleCloseFollower = () => setFollower(false);
+
     const handleOpenFollowing = () => {
-        setFollower(true);
+        setFollowing(true);
     }
-    const handleCloseFollowing = () => setFollower(false);
+    const handleCloseFollowing = () => setFollowing(false);
 
     const {userId} = useParams();
     const {loading: userLoading, error: userInfoError, data: userData} = useQuery(GET_USER_INFO, {
@@ -101,7 +101,7 @@ export const UserPage = () => {
                                 cursor: "pointer",
                             }
                         }}>
-                            1 follower
+                            {profile.followerCount} follower
                         </Typography>
                         <Typography sx={{fontSize: 16, color: "text.primary"}}>·</Typography>
                         <Typography
@@ -113,7 +113,7 @@ export const UserPage = () => {
                                 cursor: "pointer",
                             }
                         }}>
-                            5 following
+                            {profile.followingCount} following
                         </Typography>
                     </Stack>
                     {currUser?.userId === userId && (
@@ -141,23 +141,29 @@ export const UserPage = () => {
                             </Fab>
                         </Stack>)}
                 </Stack>
+                <Stack sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    maxWidth: 'lg',
+                }}>
+                    <ImageList rowHeight={300} cols={belowSM ? 2 : 4} gap={15}>
+                        {photos.map((item) => (
+                            <ImageListItem key={item.node?.id}>
+                                <img
+                                    src={`${item.node?.photoUrl}`}
+                                    srcSet={`${item.node?.photoUrl}`}
+                                    alt={item.node?.photoUrl}
+                                    loading="lazy"
+                                    onClick={() => handleOpen(item.node?.id)}
+                                    style={{borderRadius: '30px', width: '220px', height: '300px'}}
+                                />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
+                </Stack>
             </Stack>
-            <Container disableGutters maxWidth="md">
-                <ImageList rowHeight={300} cols={belowSM ? 2 : 4} gap={15}>
-                    {photos.map((item) => (
-                        <ImageListItem key={item.node?.id}>
-                            <img
-                                src={`${item.node?.photoUrl}`}
-                                srcSet={`${item.node?.photoUrl}`}
-                                alt={item.node?.photoUrl}
-                                loading="lazy"
-                                onClick={() => handleOpen(item.node?.id)}
-                                style={{borderRadius: '30px', width: '220px', height: '300px'}}
-                            />
-                        </ImageListItem>
-                    ))}
-                </ImageList>
-            </Container>
+
             <Modal open={open} onClose={handleClose} aria-labelledby="image-modal">
                 <Box>
                     <PhotoPage photoId={openedPhoto}/>
@@ -168,14 +174,14 @@ export const UserPage = () => {
                     <UploadPhoto closeModal={setUpload}/>
                 </Box>
             </Modal>
-            <Modal open={follower} onClose={handleCloseFollower} aria-labelledby="upload-modal">
+            <Modal open={follower} onClose={handleCloseFollower} aria-labelledby="follower-modal">
                 <Box>
-                    <FollowPage follow={"Follower"} closeModal={setFollower}/>
+                    <FollowPage follow="Follower" closeModal={setFollower}/>
                 </Box>
             </Modal>
-            <Modal open={following} onClose={handleCloseFollowing} aria-labelledby="upload-modal">
+            <Modal open={following} onClose={handleCloseFollowing} aria-labelledby="following-modal">
                 <Box>
-                    <FollowPage follow={"Following"} closeModal={setFollowing}/>
+                    <FollowPage follow="Following" closeModal={setFollowing}/>
                 </Box>
             </Modal>
 

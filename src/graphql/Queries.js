@@ -13,6 +13,7 @@ export const GET_USER_INFO = gql`
                 followerCount
                 followingCount
             }
+            isFollowedByCurr
             userPhotos(orderBy: "-date_time"){
                 edges {
                     node {
@@ -47,6 +48,7 @@ export const GET_PHOTO_DETAILS = gql`
                 username
                 firstName
                 lastName
+                isFollowedByCurr
             }
             photoUrl
             dateTime
@@ -59,6 +61,7 @@ export const GET_PHOTO_DETAILS = gql`
                         comment
                         dateTime
                         user{
+                            id
                             username
                             firstName
                             lastName
@@ -86,7 +89,7 @@ export const GET_ALL_PHOTOS = gql`
 export const GET_FOLLOWING_LIST = gql`
     query followingList($userId: ID!){
         user(id: $userId){
-            followedByUser{
+            followingUser{
                 edges{
                     node{
                         user{
@@ -180,7 +183,7 @@ export const SEARCH_USERS = gql`
 export const GET_USER_FOLLOWER = gql`
     query userFollower($userId: ID!){
         user(id: $userId){
-            followingUser{
+            followedByUser{
                 edges {
                     node {
                         user {
@@ -188,6 +191,7 @@ export const GET_USER_FOLLOWER = gql`
                             username
                             firstName
                             lastName
+                            isFollowedByCurr
                         }
                     }
                 }
@@ -197,9 +201,9 @@ export const GET_USER_FOLLOWER = gql`
 `
 
 export const GET_USER_FOLLOWING = gql`
-    query userFollower($userId: ID!){
+    query userFollowing($userId: ID!){
         user(id: $userId){
-            followedByUser{
+            followingUser{
                 edges {
                     node {
                         user {
@@ -207,6 +211,7 @@ export const GET_USER_FOLLOWING = gql`
                             username
                             firstName
                             lastName
+                            isFollowedByCurr
                         }
                     }
                 }

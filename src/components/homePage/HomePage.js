@@ -26,7 +26,7 @@ export const HomePage = () => {
         GET_FOLLOWING_LIST, {
             variables: {userId: currUser.userId},
             onCompleted(data) {
-                const following = data.user.followedByUser.edges;
+                const following = data.user.followingUser.edges;
                 const followingUserIds = following.map(edge => edge.node.user.id).concat(currUser.userId).join(",");
                 getFollowingPhotos({variables: {followingUserIds: followingUserIds}});
             }
@@ -47,7 +47,7 @@ export const HomePage = () => {
     if (followingPhotosLoading) return <Loading/>
     if (followingPhotosError) return <Box><QueryError errorMessage={followingPhotosError}/></Box>
 
-    const followingUsers = followingListData.user.followedByUser.edges.map(edge => edge.node.user);
+    const followingUsers = followingListData.user.followingUser.edges.map(edge => edge.node.user);
     const followingPhotos = followingPhotosData?.getPhotos.edges;
 
     return (

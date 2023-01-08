@@ -31,7 +31,7 @@ export default function SignUpSide() {
             firstName: "",
             lastName: "",
             password: "",
-            email: "example@gmail.com",
+            email: "",
             location: "",
             description: "",
             occupation: "",

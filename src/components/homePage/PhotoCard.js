@@ -27,7 +27,7 @@ export const PhotoCard = ({index, photoData, handleOpen}) => {
                             <Avatar {...stringAvatar(fullName)} />
                         </ListItemAvatar>
                         <ListItemText
-                            sx={{p: 0, m: 0, height: 40}}
+                            sx={{p: 0, pt: photoData.location ? 0 : 2.5, m: 0, height: 40}}
                             primary={photoData.user.username}
                                       secondary={<Typography
                                           sx={{fontSize: 13, height: 17}}

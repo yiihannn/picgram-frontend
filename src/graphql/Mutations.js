@@ -59,3 +59,12 @@ export const UPLOAD_PHOTO = gql`
         }
     }
 `
+
+export const FOLLOW_USER = gql`
+    mutation followUser($userInput: FollowUserInput!) {
+        followUser(input: $userInput) {
+            code
+            msg
+        }
+    }
+`

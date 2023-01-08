@@ -23,7 +23,7 @@ function App() {
         link: createUploadLink()
     });
 
-    const [currPage, setCurrPage] = useState("Explore");
+    const [currPage, setCurrPage] = useState("");
     const [currUser, setCurrUser] = useState(JSON.parse(localStorage.getItem("currUser")));
 
     useEffect(() => {

@@ -55,7 +55,8 @@ export const TagAutoComplete = ({value, setValue}) => {
                         fontSize: 14
                     }}>
                         {option.name}
-                        <Avatar sx={{ml: 1, fontSize: 12, height: 20, width: 20}}>{option.photoCount}</Avatar>
+                        {option.photoCount && <Avatar sx={{ml: 1, fontSize: 12, height: 20, width: 20}}>
+                            {option.photoCount}</Avatar>}
                     </Typography>
                 </li>
             )}
