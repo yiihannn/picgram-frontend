@@ -49,7 +49,7 @@ export default function SignInSide() {
                 };
                 setCurrUser(user);
                 setCurrPage("Explore");
-                navigate("/");
+                navigate("/explore");
             }
         },
         onError({networkError, graphQLErrors}) {

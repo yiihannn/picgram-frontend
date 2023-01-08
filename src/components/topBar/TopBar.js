@@ -65,8 +65,10 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 
 export const TopBar = () => {
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const {currPage, setCurrPage, currUser, setCurrUser} = useContext(AppContext);
+    const {currUser, setCurrUser} = useContext(AppContext);
     const navigate = useNavigate();
+    const path = window.location.pathname.split("/")[1];
+
     const { register, resetField, handleSubmit, clearErrors} = useForm({
         defaultValues: {
             keywords: "",
@@ -77,7 +79,6 @@ export const TopBar = () => {
     const [userLogOut] = useMutation(LOG_OUT, {
         onCompleted(data) {
             console.log("User logged out: ", data);
-            setCurrPage("Explore");
             setCurrUser(null);
             navigate("/login-register");
         },
@@ -97,13 +98,12 @@ export const TopBar = () => {
     }
 
     const handleClickPage = (page) => {
-        let toPage = "";
+        let toPage = "/explore";
         if (page === "Home") {
             toPage = "/home/" + currUser.userId;
         } else if (page === "User") {
             toPage = "/user/" + currUser.userId;
         }
-        setCurrPage(page);
         navigate(toPage);
     }
 
@@ -118,15 +118,15 @@ export const TopBar = () => {
                             key={page}
                             onClick={() => handleClickPage(page)}
                             sx={{
-                                color: currPage === page ? 'white' : 'black',
+                                color: path === page.toLowerCase() ? 'white' : 'black',
                                 fontSize: 15,
                                 display: 'block',
                                 textTransform: 'none',
                                 fontFamily: 'BlinkMacSystemFont',
                                 borderRadius: 10, p: 1.5,
-                                backgroundColor: currPage === page ? 'black' : 'white',
+                                backgroundColor: path === page.toLowerCase() ? 'black' : 'white',
                                 "&:hover": {
-                                    backgroundColor: currPage === page ? 'black' : 'white',
+                                    backgroundColor: path === page.toLowerCase() ? 'black' : 'white',
                                     cursor: 'pointer'
                                 }
                             }}
