@@ -14,6 +14,7 @@ import {UserPage} from "./components/userPage/UserPage";
 import {HomePage} from "./components/homePage/HomePage";
 import {SearchPage} from "./components/searchPage/SearchPage";
 import {Explore} from "./components/explorePage/Explore";
+import {EditProfile} from "./components/editProfile/EditProfile";
 
 export const AppContext = createContext();
 
@@ -55,6 +56,7 @@ function App() {
                         <Route path="/user/:userId" element={currUser ? <UserPage/> : <Navigate to="/login-register" replace={true}/>}/>
                         <Route path="/home/:userId" element={currUser ? <HomePage/> : <Navigate to="/login-register" replace={true}/>}/>
                         <Route path="/search" element={currUser ? <SearchPage/> : <Navigate to="/login-register" replace={true}/>}/>
+                        <Route path="/edit-profile" element={currUser ? <EditProfile/> : <Navigate to="/login-register" replace={true}/>}/>
                     </Routes>
                 </BrowserRouter>
             </AppContext.Provider>

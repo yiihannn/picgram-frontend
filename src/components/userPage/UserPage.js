@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useQuery} from "@apollo/client";
 import {GET_USER_INFO} from "../../graphql/Queries";
@@ -27,8 +27,9 @@ const theme = createTheme();
 
 
 export const UserPage = () => {
-    const belowSM = useMediaQuery(theme.breakpoints.down('sm'));
     const {currUser} = useContext(AppContext);
+    const navigate = useNavigate();
+    const belowSM = useMediaQuery(theme.breakpoints.down('sm'));
     const [open, setOpen] = useState(false);
     const [upload, setUpload] = useState(false);
     const [follower, setFollower] = useState(false);
@@ -55,6 +56,10 @@ export const UserPage = () => {
         setFollowing(true);
     }
     const handleCloseFollowing = () => setFollowing(false);
+
+    const handleClickEdit = () => {
+        navigate("/edit-profile");
+    }
 
     const {userId} = useParams();
     const {loading: userLoading, error: userInfoError, data: userData} = useQuery(GET_USER_INFO, {
@@ -131,7 +136,9 @@ export const UserPage = () => {
                                 <FileUploadOutlinedIcon sx={{mr: 1}}/>
                                 Upload
                             </Fab>
-                            <Fab variant="extended" aria-label="edit" sx={{
+                            <Fab variant="extended" aria-label="edit"
+                                 onClick={handleClickEdit}
+                                 sx={{
                                 backgroundColor: theme.palette.grey["300"],
                                 boxShadow: "none", textTransform: "none", fontSize: "15px"
                             }}

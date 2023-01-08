@@ -4,17 +4,13 @@ import Avatar from "@mui/material/Avatar";
 import {getTimeDiff, stringAvatar} from "../utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {useContext} from "react";
-import {AppContext} from "../../App";
 import {useNavigate} from "react-router-dom";
 
 
 export const PhotoComments = ({comments}) => {
-    const {setCurrPage} = useContext(AppContext);
     const navigate = useNavigate();
 
     const handleClickUser = (userId) => {
-        setCurrPage("User");
         navigate("/user/" + userId);
     }
 

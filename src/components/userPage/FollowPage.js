@@ -32,7 +32,7 @@ const style = {
 const theme = createTheme();
 
 export const FollowPage = ({follow, closeModal}) => {
-    const {currUser, setCurrPage} = useContext(AppContext);
+    const {currUser} = useContext(AppContext);
     const {userId} = useParams();
     const navigate = useNavigate();
 
@@ -49,7 +49,6 @@ export const FollowPage = ({follow, closeModal}) => {
         followUser({variables: {userInput: {userId: userId}}});
     }
     const handleClickUser = (userId) => {
-        setCurrPage("User");
         closeModal(false);
         navigate("/user/" + userId);
     }

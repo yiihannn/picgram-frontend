@@ -45,7 +45,6 @@ export const MakeComment = ({photoId}) => {
                  clearErrors(["content", "customError"]);
              }}
              onSubmit={handleSubmit((data) => {
-                 console.log(data, photoId);
                  userMakeComment({variables: {commentInput: {photoId: photoId, content: data.content}}});
                  resetField("content");
                  resetField("customError");

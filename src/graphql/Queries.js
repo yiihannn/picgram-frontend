@@ -219,3 +219,18 @@ export const GET_USER_FOLLOWING = gql`
         }
     }
 `
+
+export const GET_USER_PROFILE = gql`
+    query userProfile($userId: ID!){
+        user(id: $userId){
+            firstName
+            lastName
+            email
+            profile {
+                location
+                occupation
+                description
+            }
+        }
+    }
+`

@@ -41,9 +41,7 @@ export default function SignUpSide() {
 
     const [userSignUp] = useMutation(SIGN_UP, {
         onCompleted(data) {
-            console.log(data);
             if (data.signUp?.user?.id) {
-                console.log(data.signUp?.user?.id);
                 setCurrPage("signin");
             }
         },

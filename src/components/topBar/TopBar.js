@@ -77,8 +77,7 @@ export const TopBar = () => {
     });
 
     const [userLogOut] = useMutation(LOG_OUT, {
-        onCompleted(data) {
-            console.log("User logged out: ", data);
+        onCompleted() {
             setCurrUser(null);
             navigate("/login-register");
         },
@@ -140,7 +139,6 @@ export const TopBar = () => {
                     alignItems: 'center', justifyContent: 'flex-start',
                 }}>
                     <Search onSubmit={handleSubmit((data) => {
-                        console.log(data);
                         if (data.keywords !== "") {
                             const params = {keywords: data.keywords};
                             navigate({

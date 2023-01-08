@@ -40,7 +40,6 @@ export default function SignInSide() {
     const [userLogIn] = useMutation(LOG_IN, {
         onCompleted(data) {
             if (data.logIn?.user?.id) {
-                console.log("user logged in: ",data.logIn?.user?.username);
                 const name = data.logIn?.user?.firstName + " " + data.logIn?.user?.lastName;
                 const user = {
                     userId: data.logIn?.user?.id,
@@ -48,7 +47,6 @@ export default function SignInSide() {
                     fullName: name
                 };
                 setCurrUser(user);
-                setCurrPage("Explore");
                 navigate("/explore");
             }
         },

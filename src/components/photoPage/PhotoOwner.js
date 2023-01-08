@@ -15,7 +15,7 @@ import {useNavigate} from "react-router-dom";
 export const PhotoOwner = ({owner, time, photoId}) => {
     const fullName = owner.firstName + " " + owner.lastName;
     const followText = owner.isFollowedByCurr ? "Following" : "Follow";
-    const {currUser, setCurrPage} = useContext(AppContext);
+    const {currUser} = useContext(AppContext);
     const navigate = useNavigate();
 
     const [followUser] = useMutation(FOLLOW_USER, {
@@ -28,7 +28,6 @@ export const PhotoOwner = ({owner, time, photoId}) => {
     }
 
     const handleClickUser = (userId) => {
-        setCurrPage("User");
         navigate("/user/" + userId);
     }
 
