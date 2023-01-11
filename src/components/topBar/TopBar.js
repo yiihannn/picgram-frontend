@@ -9,58 +9,20 @@ import MenuItem from '@mui/material/MenuItem';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import {
-    ListItemIcon,
-    Stack,
-} from "@mui/material";
+import {ListItemIcon, Stack,} from "@mui/material";
 import {Logout} from "@mui/icons-material";
 import {useContext, useState} from "react";
 import {AppContext} from "../../App";
 import {LOG_OUT} from "../../graphql/Mutations";
 import {useMutation} from "@apollo/client";
-import {createSearchParams, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {stringAvatar} from "../utils";
-import SearchIcon from "@mui/icons-material/Search";
-import {styled} from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
-import {useForm} from "react-hook-form";
+import {SearchAutoComplete} from "../searchWidget/searchAutoComplete/SearchAutoComplete";
+import '@algolia/autocomplete-theme-classic';
+import '../searchWidget/searchAutoComplete/SearchAutoComplete.css';
 
 
 const pages = ['Explore', 'Home'];
-
-const Search = styled('form')(({theme}) => ({
-    position: 'relative',
-    borderRadius: 30,
-    backgroundColor: "#e9e9e9",
-    '&:hover': {
-        backgroundColor: theme.palette.grey["300"],
-    },
-    margin: 0,
-    width: '100%',
-    height: '100%'
-}));
-
-const SearchIconWrapper = styled('div')(({theme}) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({theme}) => ({
-    color: 'inherit',
-    width: '100%',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1.5, 1.5, 1.5, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-    },
-}));
 
 
 export const TopBar = () => {
@@ -68,13 +30,6 @@ export const TopBar = () => {
     const {currUser, setCurrUser} = useContext(AppContext);
     const navigate = useNavigate();
     const path = window.location.pathname.split("/")[1];
-
-    const { register, resetField, handleSubmit, clearErrors} = useForm({
-        defaultValues: {
-            keywords: "",
-            customError: ""
-        }
-    });
 
     const [userLogOut] = useMutation(LOG_OUT, {
         onCompleted() {
@@ -138,27 +93,7 @@ export const TopBar = () => {
                     flexGrow: 1, display: 'flex', flexDirection: 'row',
                     alignItems: 'center', justifyContent: 'flex-start',
                 }}>
-                    <Search onSubmit={handleSubmit((data) => {
-                        if (data.keywords !== "") {
-                            const params = {keywords: data.keywords};
-                            navigate({
-                                pathname: '/search',
-                                search: `?${createSearchParams(params)}`
-                            });
-                            resetField("keywords");
-                        }
-                        resetField("customError");
-                        clearErrors(["keywords", "customError"]);
-                    })}>
-                        <SearchIconWrapper>
-                            <SearchIcon sx={{color: "#767676"}}/>
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{...register("keywords",
-                                    {required: "Empty search!"}), 'aria-label': 'search'}}
-                        />
-                    </Search>
+                    <SearchAutoComplete/>
                 </Box>
                 <Box sx={{flexGrow: 0}}>
                     <Tooltip title="Your homepage">

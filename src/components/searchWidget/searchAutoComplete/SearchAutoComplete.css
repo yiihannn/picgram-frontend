@@ -1,0 +1,9 @@
+:root {
+    --aa-primary-color-rgb: 142, 142, 142;
+    --aa-font-family: BlinkMacSystemFont;
+}
+
+.aa-Form {
+    border-radius: 20px;
+    border: 1px solid #8e8e8e;
+}
