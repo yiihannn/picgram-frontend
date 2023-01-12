@@ -3,10 +3,12 @@ import {gql} from "@apollo/client";
 export const GET_USER_INFO = gql`
     query userInfo($userId: ID!){
         user(id: $userId) {
+            id
             username
             firstName
             lastName
             profile{
+                id
                 location
                 description
                 occupation
@@ -23,11 +25,12 @@ export const GET_USER_INFO = gql`
                         commentSet{
                             edges {
                                 node {
+                                    id
                                     comment
                                     dateTime
                                     user{
-                                        username
                                         id
+                                        username
                                     }
                                 }
                             }
@@ -119,6 +122,7 @@ export const GET_FOLLOWING_PHOTOS = gql`
                     caption
                     location
                     user{
+                        id
                         username
                         firstName
                         lastName
@@ -126,8 +130,10 @@ export const GET_FOLLOWING_PHOTOS = gql`
                     commentSet{
                         edges {
                             node {
+                                id
                                 comment
                                 user {
+                                    id
                                     username
                                 }
                             }
@@ -144,6 +150,7 @@ export const GET_ALL_TAGS = gql`
         getTags(orderBy: "name"){
             edges {
                 node {
+                    id
                     name
                     photoCount
                 }
@@ -223,12 +230,12 @@ export const GET_USER_FOLLOWING = gql`
 export const GET_USER_PROFILE = gql`
     query userProfile($userId: ID!){
         user(id: $userId){
+            id
             firstName
             lastName
-            email
             profile {
-                location
-                occupation
+                id
+                avatar
                 description
             }
         }

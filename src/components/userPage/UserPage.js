@@ -71,6 +71,7 @@ export const UserPage = () => {
     const photos = userData.user.userPhotos?.edges;
     const profile = userData.user.profile;
     const name = userData.user.firstName + " " + userData.user.lastName;
+
     return (
         <ThemeProvider theme={theme}>
             <Stack
@@ -91,11 +92,11 @@ export const UserPage = () => {
                         ...stringAvatar(name).sx,
                         width: 90, height: 90, fontSize: 50
                     }}/>
-                    <Typography variant="h4" align="center" color="text.primary">{name}</Typography>
+                    <Typography mt={1} variant="h4" align="center" color="text.primary">{name}</Typography>
                     <Typography variant="subtitle1" align="center" color="text.secondary">
                         {"@" + userData.user.username}
                     </Typography>
-                    <Typography>{"Description: " + profile.description}</Typography>
+                    <Typography>{profile.description}</Typography>
                     <Stack sx={{m: 1}} direction="row" alignItems="center" justifyContent="center">
                         <Typography
                             onClick={handleOpenFollower}

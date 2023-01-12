@@ -306,6 +306,8 @@ type Mutation {
   makeComment(input: MakeCommentInput!): MakeCommentPayload
   uploadPhoto(input: UploadPhotoInput!): UploadPhotoPayload
   followUser(input: FollowUserInput!): FollowUserPayload
+  changeAvatar(input: ChangeAvatarInput!): ChangeAvatarPayload
+  editProfile(input: EditProfileInput!): EditProfilePayload
 }
 
 type LogInPayload {
@@ -397,5 +399,28 @@ type FollowUserPayload {
 
 input FollowUserInput {
   userId: String!
+  clientMutationId: String
+}
+
+type ChangeAvatarPayload {
+  code: Int
+  msg: String
+  clientMutationId: String
+}
+
+input ChangeAvatarInput {
+  newAvatar: Upload!
+  clientMutationId: String
+}
+
+type EditProfilePayload {
+  user: UserNode
+  clientMutationId: String
+}
+
+input EditProfileInput {
+  firstName: String!
+  lastName: String!
+  description: String
   clientMutationId: String
 }

@@ -68,3 +68,19 @@ export const FOLLOW_USER = gql`
         }
     }
 `
+
+export const EDIT_PROFILE = gql`
+    mutation editProfile($profileInput: EditProfileInput!) {
+        editProfile(input: $profileInput) {
+            user {
+                id
+                firstName
+                lastName
+                profile {
+                    id
+                    description
+                }
+            }
+        }
+    }
+`
