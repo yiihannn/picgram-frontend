@@ -63,8 +63,21 @@ export const UPLOAD_PHOTO = gql`
 export const FOLLOW_USER = gql`
     mutation followUser($userInput: FollowUserInput!) {
         followUser(input: $userInput) {
-            code
-            msg
+            currUser {
+                id
+                profile {
+                    id
+                    followingCount
+                }
+            }
+            targetUser {
+                id
+                profile {
+                    id
+                    followerCount
+                }
+                isFollowedByCurr
+            }
         }
     }
 `

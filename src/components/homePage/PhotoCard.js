@@ -9,6 +9,7 @@ import {CommentsBelow} from "./CommentsBelow";
 import {Fragment} from "react";
 
 export const PhotoCard = ({index, photoData, handleOpen}) => {
+
     const comments = photoData.commentSet.edges;
     return (
         <Paper key={index} direction="column" sx={{width: 500, borderRadius: 5}}>
@@ -18,7 +19,6 @@ export const PhotoCard = ({index, photoData, handleOpen}) => {
                 width: 1,
                 height: 65,
                 alignItems: "center",
-                justifyContent: "space-between"
             }}>
                 <List sx={{width: 0.8, p: 0, ml: 2}}>
                     <ListItem key="user" sx={{p: 0}}>
@@ -43,7 +43,6 @@ export const PhotoCard = ({index, photoData, handleOpen}) => {
                         />
                     </ListItem>
                 </List>
-                {/*<Button>Unfollow</Button>*/}
             </Box>
             <Box sx={{
                 display: "flex",

@@ -394,8 +394,8 @@ that will be handled by the multipart request spec
 scalar Upload
 
 type FollowUserPayload {
-  code: Int
-  msg: String
+  currUser: UserNode
+  targetUser: UserNode
   clientMutationId: String
 }
 

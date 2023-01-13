@@ -59,11 +59,12 @@ export const HomePage = () => {
                     alignItems: 'flex-start',
                     justifyContent: 'space-around'
                 }}>
-                    {followingPhotos && <Stack direction="column" spacing={2} sx={{width: 0.6, height: 1}}>
-                        {followingPhotos.map((edge, index) =>
-                            <PhotoCard key={index} index={index} photoData={edge.node} handleOpen={handleOpen}/>)}
-                    </Stack>}
-                    <Paper direction="column" sx={{width: 0.3, height: 1, borderRadius: 5}}>
+                    {followingPhotos &&
+                        <Stack direction="column" spacing={2} sx={{height: 1, mr: 1}}>
+                            {followingPhotos.map((edge, index) =>
+                                <PhotoCard key={index} index={index} photoData={edge.node} handleOpen={handleOpen}/>)}
+                        </Stack>}
+                    <Paper direction="column" sx={{height: 1, borderRadius: 5, ml: 1}}>
                         <FollowingList users={followingUsers}/>
                     </Paper>
                     <Modal

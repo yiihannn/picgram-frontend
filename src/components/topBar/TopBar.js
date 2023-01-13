@@ -58,6 +58,11 @@ export const TopBar = () => {
         userLogOut({variables: {userData: {}}});
     }
 
+    const handleEditProfile = () => {
+        navigate("/edit-profile");
+        setAnchorElUser(null);
+    }
+
     const handleClickPage = (page) => {
         let toPage = "/explore";
         if (page === "Home") {
@@ -128,7 +133,7 @@ export const TopBar = () => {
                         open={Boolean(anchorElUser)}
                         onClose={handleCloseUserMenu}
                     >
-                        <MenuItem onClick={handleLogOut}>
+                        <MenuItem onClick={handleEditProfile}>
                             <ListItemIcon>
                                 <EditOutlinedIcon fontSize="small"/>
                             </ListItemIcon>

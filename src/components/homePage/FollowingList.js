@@ -16,7 +16,7 @@ export const FollowingList = ({users}) => {
         (data &&
             <List sx={{
                 display: 'flex', flexDirection: 'column', alignItems: 'center',
-                justifyContent: 'center', width: 1
+                justifyContent: 'center', width: "260px"
             }}>
                 <ListItem key="currUser">
                     <ListItemAvatar>

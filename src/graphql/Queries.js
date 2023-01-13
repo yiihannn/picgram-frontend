@@ -112,6 +112,7 @@ export const GET_ALL_PHOTOS = gql`
 export const GET_FOLLOWING_LIST = gql`
     query followingList($userId: ID!){
         user(id: $userId){
+            id
             followingUser{
                 edges{
                     node{
