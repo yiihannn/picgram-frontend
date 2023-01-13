@@ -50,6 +50,7 @@ type Query {
     """Ordering"""
     orderBy: String
   ): TagNodeConnection
+  currentUser: UserNode
 }
 
 type UserNode implements Node {
@@ -126,6 +127,7 @@ type ProfileNode implements Node {
   following(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, username: String, email: String): UserNodeConnection!
   followingCount: Int
   followerCount: Int
+  avatarUrl: String
 }
 
 type UserNodeConnection {
@@ -403,8 +405,7 @@ input FollowUserInput {
 }
 
 type ChangeAvatarPayload {
-  code: Int
-  msg: String
+  profile: ProfileNode
   clientMutationId: String
 }
 

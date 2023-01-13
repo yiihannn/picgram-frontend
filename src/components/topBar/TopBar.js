@@ -14,12 +14,14 @@ import {Logout} from "@mui/icons-material";
 import {useContext, useState} from "react";
 import {AppContext} from "../../App";
 import {LOG_OUT} from "../../graphql/Mutations";
-import {useMutation} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import {useNavigate} from "react-router-dom";
-import {stringAvatar} from "../utils";
 import {SearchAutoComplete} from "../searchWidget/searchAutoComplete/SearchAutoComplete";
 import '@algolia/autocomplete-theme-classic';
 import '../searchWidget/searchAutoComplete/SearchAutoComplete.css';
+import {GET_CURR_USER} from "../../graphql/Queries";
+import {Loading} from "../others/Loading";
+import {QueryError} from "../others/QueryError";
 
 
 const pages = ['Explore', 'Home'];
@@ -31,12 +33,17 @@ export const TopBar = () => {
     const navigate = useNavigate();
     const path = window.location.pathname.split("/")[1];
 
+    const {loading, error, data} = useQuery(GET_CURR_USER)
+
     const [userLogOut] = useMutation(LOG_OUT, {
         onCompleted() {
             setCurrUser(null);
             navigate("/login-register");
         },
     });
+
+    if (loading) return <Loading/>
+    if (error) return <QueryError errorMessage={error}/>
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -98,7 +105,7 @@ export const TopBar = () => {
                 <Box sx={{flexGrow: 0}}>
                     <Tooltip title="Your homepage">
                         <IconButton onClick={() => handleClickPage("User")}>
-                            <Avatar {...stringAvatar(currUser.fullName)}/>
+                            <Avatar alt="" src={`${data.currentUser.profile.avatarUrl}`}/>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Accounts and more options">
@@ -135,5 +142,6 @@ export const TopBar = () => {
                     </Menu>
                 </Box>
             </Stack>
-        </AppBar>);
+        </AppBar>
+    )
 }

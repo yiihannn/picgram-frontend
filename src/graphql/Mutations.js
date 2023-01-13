@@ -84,3 +84,14 @@ export const EDIT_PROFILE = gql`
         }
     }
 `
+
+export const CHANGE_AVATAR = gql`
+    mutation changeAvatar($avatarInput: ChangeAvatarInput!) {
+        changeAvatar(input: $avatarInput) {
+            profile {
+                id
+                avatarUrl
+            }
+        }
+    }
+`

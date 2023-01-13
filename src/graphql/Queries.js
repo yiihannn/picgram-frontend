@@ -1,5 +1,18 @@
 import {gql} from "@apollo/client";
 
+export const GET_CURR_USER = gql`
+    query currUser {
+        currentUser{
+            id
+            username
+            profile{
+                id
+                avatarUrl
+            }
+        }
+    }
+`
+
 export const GET_USER_INFO = gql`
     query userInfo($userId: ID!){
         user(id: $userId) {
@@ -9,6 +22,7 @@ export const GET_USER_INFO = gql`
             lastName
             profile{
                 id
+                avatarUrl
                 location
                 description
                 occupation
@@ -235,7 +249,7 @@ export const GET_USER_PROFILE = gql`
             lastName
             profile {
                 id
-                avatar
+                avatarUrl
                 description
             }
         }

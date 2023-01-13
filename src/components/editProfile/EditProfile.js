@@ -1,9 +1,8 @@
-import {Alert, Button, Stack, Typography} from "@mui/material";
-import {stringAvatar} from "../utils";
+import {Alert, Button, Modal, Stack, Tooltip, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import {GET_USER_PROFILE} from "../../graphql/Queries";
 import {useMutation, useQuery} from "@apollo/client";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AppContext} from "../../App";
 import {Loading} from "../others/Loading";
 import {QueryError} from "../others/QueryError";
@@ -12,9 +11,12 @@ import TextField from "@mui/material/TextField";
 import {useForm} from "react-hook-form";
 import {EDIT_PROFILE} from "../../graphql/Mutations";
 import {useNavigate} from "react-router-dom";
+import Box from "@mui/material/Box";
+import {ChangeAvatar} from "./ChangeAvatar";
 
 export const EditProfile = () => {
     const {currUser, setCurrUser} = useContext(AppContext);
+
     const navigate = useNavigate();
 
     const {loading: profileLoading, error: profileError, data: profileData} = useQuery(GET_USER_PROFILE, {
@@ -84,12 +86,15 @@ export const EditProfile = () => {
         }
     }, [profileData, reset])
 
+    const [openChangeAvatar, setOpenChangeAvatar] = useState(false);
+    const handleOpen = () => setOpenChangeAvatar(true);
+    const handleClose = () => setOpenChangeAvatar(false);
+
     if (profileLoading) return <Loading/>;
     if (profileError) return <QueryError errorMessage={profileError}/>;
-
-    const name = profileData.user.firstName + " " + profileData.user.lastName;
-
+    
     const watchFields = watch(["firstName", "lastName", "description"]);
+
 
     return (
         <Stack alignItems="center" justifyContent="center" mt={4}>
@@ -99,10 +104,14 @@ export const EditProfile = () => {
                     userEditProfile({variables: {profileInput: data}});
                     navigate('/user/' + currUser.userId);
                 })} maxWidth="md" alignItems="center" justifyContent="flex-start">
-                    <Avatar {...stringAvatar(name)} sx={{
-                        ...stringAvatar(name).sx,
-                        width: 90, height: 90, fontSize: 50
-                    }}/>
+                    <Tooltip title="Change your avatar" placement="right">
+                        <Button sx={{borderRadius: 100}}>
+                            <Avatar alt="" src={`${profileData.user.profile.avatarUrl}`}
+                                    sx={{width: 90, height: 90, fontSize: 50}}
+                                    onClick={handleOpen}
+                            />
+                        </Button>
+                    </Tooltip>
                     <Grid container spacing={2} mt={2}>
                         <Grid item xs={12} sm={6} md={6}>
                             <Typography sx={{color: "text.secondary", fontSize: 14}}>First Name</Typography>
@@ -161,7 +170,11 @@ export const EditProfile = () => {
                 </Stack>}
             {errors.customError?.message && (
                 <Alert severity="error">{errors.customError?.message}</Alert>)}
+            <Modal open={openChangeAvatar} onClose={handleClose} aria-labelledby="avatar-modal">
+                <Box>
+                    <ChangeAvatar closeModal={handleClose}/>
+                </Box>
+            </Modal>
         </Stack>
-
     )
 }

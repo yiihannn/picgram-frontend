@@ -19,7 +19,7 @@ import {useContext, useState} from "react";
 import {AppContext} from "../../App";
 import {PhotoPage} from "../photoPage/PhotoPage";
 import Box from "@mui/material/Box";
-import {UploadPhoto} from "./UploadPhoto";
+import {UploadPhoto} from "../uploadPhoto/UploadPhoto";
 import {FollowPage} from "./FollowPage";
 
 
