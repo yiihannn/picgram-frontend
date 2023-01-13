@@ -15,7 +15,7 @@ import Box from "@mui/material/Box";
 import {ChangeAvatar} from "./ChangeAvatar";
 
 export const EditProfile = () => {
-    const {currUser, setCurrUser} = useContext(AppContext);
+    const {currUser} = useContext(AppContext);
 
     const navigate = useNavigate();
 
@@ -54,14 +54,6 @@ export const EditProfile = () => {
                 }
             });
         },
-        onCompleted(data) {
-            const {editProfile: {user}} = data;
-            setCurrUser({
-                userId: currUser.userId,
-                username: currUser.username,
-                fullName: user.firstName + " " + user.lastName
-            });
-        },
         onError({networkError, graphQLErrors}) {
             if (networkError) {
                 setError("customError", {type: "network", message: "Login fails, please try again!"});
@@ -92,7 +84,7 @@ export const EditProfile = () => {
 
     if (profileLoading) return <Loading/>;
     if (profileError) return <QueryError errorMessage={profileError}/>;
-    
+
     const watchFields = watch(["firstName", "lastName", "description"]);
 
 

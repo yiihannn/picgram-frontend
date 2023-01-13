@@ -2,19 +2,11 @@ import {useNavigate, useParams} from "react-router-dom";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useQuery} from "@apollo/client";
 import {GET_USER_INFO} from "../../graphql/Queries";
-import {
-    Fab,
-    ImageList,
-    ImageListItem,
-    Modal,
-    Stack,
-    useMediaQuery
-} from "@mui/material";
+import {Fab, ImageList, ImageListItem, Modal, Stack, useMediaQuery} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Avatar from "@mui/material/Avatar";
-import {stringAvatar} from "../utils";
 import {useContext, useState} from "react";
 import {AppContext} from "../../App";
 import {PhotoPage} from "../photoPage/PhotoPage";
@@ -88,10 +80,7 @@ export const UserPage = () => {
                         maxWidth: 'sm',
                     }}
                 >
-                    <Avatar {...stringAvatar(name)} sx={{
-                        ...stringAvatar(name).sx,
-                        width: 90, height: 90, fontSize: 50
-                    }}/>
+                    <Avatar alt="" src={`${profile.avatarUrl}`} sx={{width: 90, height: 90}}/>
                     <Typography mt={1} variant="h4" align="center" color="text.primary">{name}</Typography>
                     <Typography variant="subtitle1" align="center" color="text.secondary">
                         {"@" + userData.user.username}

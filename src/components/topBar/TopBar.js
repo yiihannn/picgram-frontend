@@ -33,14 +33,14 @@ export const TopBar = () => {
     const navigate = useNavigate();
     const path = window.location.pathname.split("/")[1];
 
-    const {loading, error, data} = useQuery(GET_CURR_USER)
-
     const [userLogOut] = useMutation(LOG_OUT, {
         onCompleted() {
             setCurrUser(null);
             navigate("/login-register");
         },
     });
+
+    const {loading, error, data} = useQuery(GET_CURR_USER)
 
     if (loading) return <Loading/>
     if (error) return <QueryError errorMessage={error}/>
@@ -69,6 +69,7 @@ export const TopBar = () => {
     }
 
     return (
+        (data &&
         <AppBar position="sticky" color="grey" elevation={0}>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" sx={{pl: 5, pr: 5, mt: 2, mb: 2}}>
                 <CameraAltOutlinedIcon
@@ -142,6 +143,6 @@ export const TopBar = () => {
                     </Menu>
                 </Box>
             </Stack>
-        </AppBar>
+        </AppBar>)
     )
 }

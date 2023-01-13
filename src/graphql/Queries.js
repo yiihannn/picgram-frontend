@@ -5,6 +5,8 @@ export const GET_CURR_USER = gql`
         currentUser{
             id
             username
+            firstName
+            lastName
             profile{
                 id
                 avatarUrl
@@ -63,9 +65,11 @@ export const GET_PHOTO_DETAILS = gql`
             user{
                 id
                 username
-                firstName
-                lastName
                 isFollowedByCurr
+                profile {
+                    id
+                    avatarUrl
+                }
             }
             photoUrl
             dateTime
@@ -80,8 +84,10 @@ export const GET_PHOTO_DETAILS = gql`
                         user{
                             id
                             username
-                            firstName
-                            lastName
+                            profile {
+                                id
+                                avatarUrl
+                            }
                         }
                     }
                 }
@@ -115,6 +121,10 @@ export const GET_FOLLOWING_LIST = gql`
                             firstName
                             lastName
                             lastLogin
+                            profile {
+                                id
+                                avatarUrl
+                            }
                         }
                     }
                 }
@@ -140,6 +150,10 @@ export const GET_FOLLOWING_PHOTOS = gql`
                         username
                         firstName
                         lastName
+                        profile {
+                            id
+                            avatarUrl
+                        }
                     }
                     commentSet{
                         edges {
@@ -149,6 +163,10 @@ export const GET_FOLLOWING_PHOTOS = gql`
                                 user {
                                     id
                                     username
+                                    profile {
+                                        id
+                                        avatarUrl
+                                    }
                                 }
                             }
                         }
@@ -213,6 +231,10 @@ export const GET_USER_FOLLOWER = gql`
                             firstName
                             lastName
                             isFollowedByCurr
+                            profile {
+                                id
+                                avatarUrl
+                            }
                         }
                     }
                 }
@@ -233,6 +255,10 @@ export const GET_USER_FOLLOWING = gql`
                             firstName
                             lastName
                             isFollowedByCurr
+                            profile {
+                                id
+                                avatarUrl
+                            }
                         }
                     }
                 }

@@ -40,11 +40,8 @@ export default function SignInSide() {
     const [userLogIn] = useMutation(LOG_IN, {
         onCompleted(data) {
             if (data.logIn?.user?.id) {
-                const name = data.logIn?.user?.firstName + " " + data.logIn?.user?.lastName;
                 const user = {
                     userId: data.logIn?.user?.id,
-                    username: data.logIn?.user?.username,
-                    fullName: name
                 };
                 setCurrUser(user);
                 navigate("/explore");

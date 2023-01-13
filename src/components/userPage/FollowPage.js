@@ -10,7 +10,6 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Avatar from "@mui/material/Avatar";
-import {stringAvatar} from "../utils";
 import Button from "@mui/material/Button";
 import {FOLLOW_USER} from "../../graphql/Mutations";
 import {useNavigate, useParams} from "react-router-dom";
@@ -85,8 +84,8 @@ export const FollowPage = ({follow, closeModal}) => {
                 <List sx={{width: '100%'}}>
                     {users.map((user, index) => (
                         <ListItem key={index} sx={{p: 0, pl: 2, pr: 2}}>
-                            <ListItemAvatar sx={{minWidth: 40}}>
-                                <Avatar {...stringAvatar(user.node.user.firstName + " " + user.node.user.lastName)} />
+                            <ListItemAvatar>
+                                <Avatar alt="" src={`${user.node.user.profile.avatarUrl}`}/>
                             </ListItemAvatar>
                             <ListItemText primary={user.node.user.username}
                                           secondary={user.node.user.firstName + " " + user.node.user.lastName}

@@ -1,7 +1,7 @@
 import List from "@mui/material/List";
 import {ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {getTimeDiff, stringAvatar} from "../utils";
+import {getTimeDiff} from "../utils";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {useMutation} from "@apollo/client";
@@ -13,7 +13,6 @@ import {useNavigate} from "react-router-dom";
 
 
 export const PhotoOwner = ({owner, time, photoId}) => {
-    const fullName = owner.firstName + " " + owner.lastName;
     const followText = owner.isFollowedByCurr ? "Following" : "Follow";
     const {currUser} = useContext(AppContext);
     const navigate = useNavigate();
@@ -35,8 +34,8 @@ export const PhotoOwner = ({owner, time, photoId}) => {
         <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
             <List component="span" sx={{width: 1, pb: 0}}>
                 <ListItem sx={{pt: 0}}>
-                    <ListItemAvatar sx={{minWidth: 40}}>
-                        <Avatar {...stringAvatar(fullName)} />
+                    <ListItemAvatar>
+                        <Avatar alt="" src={`${owner.profile.avatarUrl}`}/>
                     </ListItemAvatar>
                     <ListItemText primary={owner.username} secondary={getTimeDiff(time) + " ago"}
                                   primaryTypographyProps={{

@@ -1,7 +1,7 @@
 import Scrollbars from "react-custom-scrollbars-2";
 import {ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {getTimeDiff, stringAvatar} from "../utils";
+import {getTimeDiff} from "../utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {useNavigate} from "react-router-dom";
@@ -24,8 +24,8 @@ export const PhotoComments = ({comments}) => {
             sx={{width: 1, height: 1}}>
             {comments.map((cmt, i) => (
                 <ListItem alignItems="flex-start" key={i} sx={{pb: 0, pt: 0}}>
-                    <ListItemAvatar sx={{minWidth: 40}}>
-                        <Avatar {...stringAvatar(cmt.node.user.firstName + " " + cmt.node.user.lastName)} />
+                    <ListItemAvatar>
+                        <Avatar alt="" src={`${cmt.node.user.profile.avatarUrl}`}/>
                     </ListItemAvatar>
                     <ListItemText
                         primary={cmt.node.user.username}

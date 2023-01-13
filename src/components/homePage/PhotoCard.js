@@ -1,6 +1,6 @@
 import {CardMedia, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {getTimeDiff, stringAvatar} from "../utils";
+import {getTimeDiff} from "../utils";
 import List from "@mui/material/List";
 import Box from "@mui/material/Box";
 import {ReactionBar} from "../photoPage/ReactionBar";
@@ -9,7 +9,6 @@ import {CommentsBelow} from "./CommentsBelow";
 import {Fragment} from "react";
 
 export const PhotoCard = ({index, photoData, handleOpen}) => {
-    const fullName = photoData.user.firstName + " " + photoData.user.lastName;
     const comments = photoData.commentSet.edges;
     return (
         <Paper key={index} direction="column" sx={{width: 500, borderRadius: 5}}>
@@ -22,9 +21,9 @@ export const PhotoCard = ({index, photoData, handleOpen}) => {
                 justifyContent: "space-between"
             }}>
                 <List sx={{width: 0.8, p: 0, ml: 2}}>
-                    <ListItem key="currUser" sx={{p: 0}}>
-                        <ListItemAvatar sx={{minWidth: 40}}>
-                            <Avatar {...stringAvatar(fullName)} />
+                    <ListItem key="user" sx={{p: 0}}>
+                        <ListItemAvatar>
+                            <Avatar alt="" src={`${photoData.user.profile.avatarUrl}`}/>
                         </ListItemAvatar>
                         <ListItemText
                             sx={{p: 0, pt: photoData.location ? 0 : 2.5, m: 0, height: 40}}

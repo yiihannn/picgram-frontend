@@ -52,7 +52,7 @@ export const MakeComment = ({photoId}) => {
              })}
              sx={{
                  border: '1px solid black', borderRadius: '26px', p: 0.5, mr: 3, ml: 2,
-                 display: 'flex', justifyContent: 'space-between', flexDirection: 'row'
+                 display: 'flex', flexDirection: 'row', alignItems: "center",
              }}>
 
             {errors.customError?.message && (
@@ -67,10 +67,11 @@ export const MakeComment = ({photoId}) => {
                 placeholder="  Add a comment..."
                 multiline
                 maxRows={2}
-                InputProps={{disableUnderline: true, sx: {flexGrow: 1, ml: 1}}}
+                fullWidth
+                InputProps={{disableUnderline: true, sx: {ml: 1}}}
             />
             <Button type="submit" disabled={watch("content") === ""}
-                    sx={{color: 'black', fontSize: 14, p: 0.5}}>
+                    sx={{color: 'black', fontSize: 14, p: 0.5, ml: 1}}>
                 Send
             </Button>
         </Box>
