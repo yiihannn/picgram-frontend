@@ -14,11 +14,41 @@ const apiKey = 'd7185cba8ed52d76b61e0a2a17deeade';
 insightsClient('init', { appId, apiKey, useCookie: true });
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+function highlight({ item, query }) {
+    return {
+        ...item,
+        _highlightResult: {
+            query: {
+                value: query
+                    ? item.label.replace(
+                        new RegExp(query, 'g'),
+                        `<span class='underline'>aa-highlight</span>${query}<span class='underline'>/aa-highlight</span>`
+                    )
+                    : item.label,
+            },
+        },
+    };
+}
+
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
     key: 'navbar',
-    limit: 3
+    limit: 3,
+    search({ query, items, limit }) {
+        if (!query) {
+            return items.slice(0, limit).map((item) => highlight({ item, query }));
+        }
+
+        return items
+            .filter((item) => item.label.toLowerCase().includes(query.toLowerCase()))
+            .slice(0, limit)
+            .map((item) => highlight({ item, query }));
+    }
 });
+
 const userPlugin = createUserPlugin('users', 'photo_sharing_user_dev');
+
+
 
 export function SearchAutoComplete(props) {
     const containerRef = useRef(null);
@@ -38,6 +68,7 @@ export function SearchAutoComplete(props) {
             render({ children }, root) {
                 if (!panelRootRef.current || rootRef.current !== root) {
                     rootRef.current = root;
+
                     panelRootRef.current?.unmount();
                     panelRootRef.current = createRoot(root);
                 }
