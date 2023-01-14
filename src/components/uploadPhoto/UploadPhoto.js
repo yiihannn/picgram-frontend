@@ -55,6 +55,7 @@ const theme = createTheme();
 export const UploadPhoto = ({closeModal}) => {
     const {currUser} = useContext(AppContext);
     const [tags, setTags] = useState([]);
+    const [showLoading, setShowLoading] = useState(false);
     const navigate = useNavigate();
 
     const {register, handleSubmit, watch, resetField, setError, formState: {errors}, clearErrors} = useForm(
@@ -70,7 +71,7 @@ export const UploadPhoto = ({closeModal}) => {
 
     const photo = watch("uploadPhoto")?.[0];
 
-    const [userUploadPhoto, {loading: uploadLoading}] = useMutation(UPLOAD_PHOTO, {
+    const [userUploadPhoto] = useMutation(UPLOAD_PHOTO, {
         onError({networkError, graphQLErrors}) {
             if (networkError) {
                 setError("customError", {type: "network", message: "Upload fails, please try again!"});
@@ -87,6 +88,7 @@ export const UploadPhoto = ({closeModal}) => {
         onCompleted() {
             resetField("customError");
             clearErrors(["uploadPhoto", "customError"]);
+            setShowLoading(false);
             closeModal(false);
         },
         refetchQueries: [{query: GET_USER_INFO, variables: {userId: currUser.userId}}, {query: GET_ALL_PHOTOS}]
@@ -105,6 +107,7 @@ export const UploadPhoto = ({closeModal}) => {
                            clearErrors(["uploadPhoto", "customError"]);
                        }}
                        onSubmit={handleSubmit(async (data) => {
+                           setShowLoading(true);
                            delete data.customError;
                            const options = {
                                maxSizeMB: 0.8,
@@ -144,7 +147,7 @@ export const UploadPhoto = ({closeModal}) => {
                                     sx={{fontSize: 16, fontFamily: 'BlinkMacSystemFont'}}>Create new post</Typography>
                         <LoadingButton
                             loadingIndicator={<CircularProgress size={16} sx={{color: "white"}}/>}
-                            loading={uploadLoading}
+                            loading={showLoading}
                             type="submit"
                                 sx={{
                                     fontSize: 15, backgroundColor: "#d30c0c", borderRadius: 10, p: 0.4,

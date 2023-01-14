@@ -42,8 +42,8 @@ export const TagAutoComplete = ({value, setValue}) => {
                 }
                 return filtered;
             }}
-
             multiple
+            limitTags={2}
             id="tags-filled"
             options={allTags.map(tag => ({name: tag.node.name, photoCount: tag.node.photoCount}))}
             renderOption={(props, option) => (
