@@ -25,7 +25,7 @@ import {useForm} from "react-hook-form";
 import {PhotoPlaceholder} from "./PhotoPlaceholder";
 import {useMutation, useQuery} from "@apollo/client";
 import {UPLOAD_PHOTO} from "../../graphql/Mutations";
-import {GET_CURR_USER, GET_USER_INFO} from "../../graphql/Queries";
+import {GET_ALL_PHOTOS, GET_CURR_USER, GET_USER_INFO} from "../../graphql/Queries";
 import {TagAutoComplete} from "./TagAutoComplete";
 import {useNavigate} from "react-router-dom";
 import imageCompression from 'browser-image-compression'
@@ -38,7 +38,6 @@ const style = {
     top: '50%',
     transform: 'translate(-50%, -50%)',
     width: 0.6,
-    height: 0.8,
     backgroundColor: 'white',
     boxShadow: "none",
     borderRadius: 6,
@@ -85,7 +84,7 @@ export const UploadPhoto = ({closeModal}) => {
             clearErrors(["uploadPhoto", "customError"]);
             closeModal(false);
         },
-        refetchQueries: [{query: GET_USER_INFO, variables: {userId: currUser.userId}}]
+        refetchQueries: [{query: GET_USER_INFO, variables: {userId: currUser.userId}}, {query: GET_ALL_PHOTOS}]
     });
 
     const {loading, error, data} = useQuery(GET_CURR_USER)
@@ -156,7 +155,7 @@ export const UploadPhoto = ({closeModal}) => {
                         </Snackbar>
                         )}
                     <Stack direction="row" alignItems="flex-start"
-                           sx={{width: 0.95, height: 0.9, m: 2, borderRadius: 'inherit'}}>
+                           sx={{width: 0.95, height: 0.9, m: 2, pt: 2, pb: 2, borderRadius: 'inherit'}}>
                         <Box component='label'
                              htmlFor="uploadPhoto"
                              sx={{
