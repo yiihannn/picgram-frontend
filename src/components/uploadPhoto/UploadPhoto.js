@@ -31,6 +31,7 @@ import {useNavigate} from "react-router-dom";
 import imageCompression from 'browser-image-compression'
 import {Loading} from "../others/Loading";
 import {QueryError} from "../others/QueryError";
+import Paper from "@mui/material/Paper";
 
 const style = {
     position: 'absolute',
@@ -38,9 +39,13 @@ const style = {
     top: '50%',
     transform: 'translate(-50%, -50%)',
     width: 0.6,
+    height: 0.8,
     backgroundColor: 'white',
     boxShadow: "none",
     borderRadius: 6,
+    p: 1.5,
+    display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start"
 };
@@ -95,7 +100,7 @@ export const UploadPhoto = ({closeModal}) => {
     return (
         (data &&
             <ThemeProvider theme={theme}>
-                <Stack component="form" sx={style}
+                <Paper component="form" sx={style}
                        onChange={() => {
                            clearErrors(["uploadPhoto", "customError"]);
                        }}
@@ -125,7 +130,6 @@ export const UploadPhoto = ({closeModal}) => {
                         flexDirection: "row",
                         width: 1,
                         height: 0.08,
-                        borderBottom: '0.5px solid grey',
                         borderTopLeftRadius: 'inherit',
                         borderTopRightRadius: 'inherit',
                         alignItems: "center",
@@ -154,13 +158,13 @@ export const UploadPhoto = ({closeModal}) => {
                             <Alert severity="error">{errors.customError?.message}</Alert>
                         </Snackbar>
                         )}
-                    <Stack direction="row" alignItems="flex-start"
-                           sx={{width: 0.95, height: 0.9, m: 2, pt: 2, pb: 2, borderRadius: 'inherit'}}>
+                    <Box sx={{display: "flex", flexDirection: "row", alignItems: "flex-start",
+                        width: 0.95, height: 0.9, p: 2, borderRadius: 'inherit'}}>
                         <Box component='label'
                              htmlFor="uploadPhoto"
                              sx={{
-                                 display: "flex", backgroundColor: photo ? "white" : theme.palette.grey.A200,
-                                 alignItems: "center", borderRadius: 'inherit', justifyContent: "center",
+                                 display: "flex", flexFlow: "column", backgroundColor: photo ? "black" : theme.palette.grey.A200,
+                                 alignItems: "center", justifyContent: "center",
                                  width: 0.6, height: 1, textTransform: "none",
                                  "&:hover": {
                                      cursor: "pointer",
@@ -178,7 +182,7 @@ export const UploadPhoto = ({closeModal}) => {
                             />
                         </Box>
                         <Stack justifyContent="flex-start" sx={{
-                            width: 0.4, m: 0, ml: 1, borderRadius: 'inherit', alignItems: 'flex-start'
+                            width: 0.4, m: 0, ml: 2, borderRadius: 'inherit', alignItems: 'flex-start'
                         }}>
                             <List sx={{width: 1, height: 0.06, pt: 0}}>
                                 <ListItem sx={{pl: 1, pt: 0}}>
@@ -247,8 +251,8 @@ export const UploadPhoto = ({closeModal}) => {
                                 <TagAutoComplete value={tags} setValue={setTags}/>
                             </Box>
                         </Stack>
-                    </Stack>
-                </Stack>
+                    </Box>
+                </Paper>
             </ThemeProvider>)
     )
 }
