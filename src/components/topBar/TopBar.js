@@ -77,8 +77,9 @@ export const TopBar = () => {
         (data &&
         <AppBar position="sticky" color="grey" elevation={0}>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" sx={{pl: 5, pr: 5, mt: 2, mb: 2}}>
-                <CameraAltOutlinedIcon
-                    sx={{mr: 1.5, p: 0.7, color: 'white', backgroundColor: "#d30c0c", borderRadius: 5}}/>
+                <CameraAltOutlinedIcon onClick={() => {navigate("/explore")}}
+                    sx={{mr: 1.5, p: 0.7, color: 'white', backgroundColor: "#d30c0c", borderRadius: 5,
+                        '&:hover': {cursor: 'pointer'}}}/>
                 <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                     {pages.map((page) => (
                         <Button

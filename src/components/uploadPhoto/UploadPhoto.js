@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import {
     Alert,
-    Button,
+    CircularProgress,
     IconButton,
     ListItem,
     ListItemAvatar,
@@ -11,6 +11,7 @@ import {
     ThemeProvider,
     Typography
 } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
 import Avatar from "@mui/material/Avatar";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
@@ -65,7 +66,7 @@ export const UploadPhoto = ({closeModal}) => {
 
     const photo = watch("uploadPhoto")?.[0];
 
-    const [userUploadPhoto] = useMutation(UPLOAD_PHOTO, {
+    const [userUploadPhoto, {loading: uploadLoading}] = useMutation(UPLOAD_PHOTO, {
         onError({networkError, graphQLErrors}) {
             if (networkError) {
                 setError("customError", {type: "network", message: "Upload fails, please try again!"});
@@ -78,6 +79,11 @@ export const UploadPhoto = ({closeModal}) => {
                     }
                 });
             }
+        },
+        onCompleted() {
+            resetField("customError");
+            clearErrors(["uploadPhoto", "customError"]);
+            closeModal(false);
         },
         refetchQueries: [{query: GET_USER_INFO, variables: {userId: currUser.userId}}]
     });
@@ -114,9 +120,6 @@ export const UploadPhoto = ({closeModal}) => {
                                return tag;
                            });
                            userUploadPhoto({variables: {uploadInput: data}});
-                           resetField("customError");
-                           clearErrors(["uploadPhoto", "customError"]);
-                           closeModal(false);
                        })}>
                     <Box sx={{
                         display: "flex",
@@ -136,13 +139,16 @@ export const UploadPhoto = ({closeModal}) => {
                         </IconButton>
                         <Typography color={theme.palette.grey.A700}
                                     sx={{fontSize: 16, fontFamily: 'BlinkMacSystemFont'}}>Create new post</Typography>
-                        <Button type="submit"
+                        <LoadingButton
+                            loadingIndicator={<CircularProgress size={16} sx={{color: "white"}}/>}
+                            loading={uploadLoading}
+                            type="submit"
                                 sx={{
                                     fontSize: 15, backgroundColor: "#d30c0c", borderRadius: 10, p: 0.4,
                                     color: "white", textTransform: 'none', mr: 2, "&:hover": {
                                         backgroundColor: "#d30c0c"
                                     }
-                                }}>Share</Button>
+                                }}>Share</LoadingButton>
                     </Box>
                     {errors.customError?.message && (
                         <Snackbar open autoHideDuration={6000}>

@@ -46,7 +46,7 @@ export const ExplorePage = () => {
         (photoListData &&
         <ThemeProvider theme={theme}>
             <Box sx={{m: 5, mt: 0}}>
-                <ImageList variant="masonry" cols={numOfCols} gap={8}>
+                <ImageList variant="masonry" cols={numOfCols} gap={15}>
                     {photos.map((item) => (
                         <ImageListItem key={item.node?.id}>
                             <img
@@ -55,7 +55,7 @@ export const ExplorePage = () => {
                                 alt={item.node?.photoUrl}
                                 loading="lazy"
                                 onClick={() => handleOpen(item.node?.id)}
-                                style={{borderRadius: '30px'}}
+                                style={{borderRadius: '20px'}}
                             />
                         </ImageListItem>
                     ))}
