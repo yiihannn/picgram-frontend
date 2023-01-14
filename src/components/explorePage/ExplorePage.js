@@ -37,7 +37,6 @@ export const ExplorePage = () => {
     const {loading: photoListLoading, error: photoListError, data: photoListData} = useQuery(GET_ALL_PHOTOS);
 
     if (photoListLoading) return <Loading/>;
-    console.log(photoListError);
     if (photoListError) return <QueryError errorMessage={photoListError}/>;
 
     const photos = photoListData.getPhotos.edges;

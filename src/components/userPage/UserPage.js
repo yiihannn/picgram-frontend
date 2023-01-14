@@ -15,6 +15,7 @@ import {UploadPhoto} from "../uploadPhoto/UploadPhoto";
 import {FollowPage} from "./FollowPage";
 import {Loading} from "../others/Loading";
 import {QueryError} from "../others/QueryError";
+import {FollowButton} from "../followButton/FollowButton";
 
 
 const theme = createTheme();
@@ -67,6 +68,7 @@ export const UserPage = () => {
     const name = userData.user.firstName + " " + userData.user.lastName;
 
     return (
+        (userData &&
         <ThemeProvider theme={theme}>
             <Stack
                 sx={{
@@ -113,7 +115,7 @@ export const UserPage = () => {
                             {profile.followingCount} following
                         </Typography>
                     </Stack>
-                    {currUser?.userId === userId && (
+                    {currUser?.userId !== userId ? <FollowButton targetUser={userData.user}/> : (
                         <Stack
                             sx={{m: 1}}
                             direction="row"
@@ -183,8 +185,7 @@ export const UserPage = () => {
                     <FollowPage follow="Following" closeModal={setFollowing}/>
                 </Box>
             </Modal>
-
-        </ThemeProvider>
+        </ThemeProvider>)
     )
 
 }

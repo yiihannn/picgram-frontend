@@ -20,8 +20,6 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
 });
 const userPlugin = createUserPlugin('users', 'photo_sharing_user_dev');
 
-
-
 export function SearchAutoComplete(props) {
     const containerRef = useRef(null);
     const panelRootRef = useRef(null);
@@ -40,7 +38,6 @@ export function SearchAutoComplete(props) {
             render({ children }, root) {
                 if (!panelRootRef.current || rootRef.current !== root) {
                     rootRef.current = root;
-
                     panelRootRef.current?.unmount();
                     panelRootRef.current = createRoot(root);
                 }
