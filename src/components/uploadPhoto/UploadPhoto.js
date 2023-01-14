@@ -6,6 +6,7 @@ import {
     ListItem,
     ListItemAvatar,
     ListItemText,
+    Snackbar,
     Stack,
     ThemeProvider,
     Typography
@@ -78,7 +79,7 @@ export const UploadPhoto = ({closeModal}) => {
                 });
             }
         },
-        refetchQueries: [{query: GET_USER_INFO, variables: {userId: currUser.userId}}, 'userInfo']
+        refetchQueries: [{query: GET_USER_INFO, variables: {userId: currUser.userId}}]
     });
 
     const {loading, error, data} = useQuery(GET_CURR_USER)
@@ -144,9 +145,12 @@ export const UploadPhoto = ({closeModal}) => {
                                 }}>Share</Button>
                     </Box>
                     {errors.customError?.message && (
-                        <Alert severity="error">{errors.customError?.message}</Alert>)}
+                        <Snackbar open autoHideDuration={6000}>
+                            <Alert severity="error">{errors.customError?.message}</Alert>
+                        </Snackbar>
+                        )}
                     <Stack direction="row" alignItems="flex-start"
-                           sx={{width: 0.95, height: 0.95, m: 2, borderRadius: 'inherit'}}>
+                           sx={{width: 0.95, height: 0.9, m: 2, borderRadius: 'inherit'}}>
                         <Box component='label'
                              htmlFor="uploadPhoto"
                              sx={{

@@ -3,7 +3,7 @@ import {useContext} from "react";
 import {AppContext} from "../../App";
 import {useMutation} from "@apollo/client";
 import {FOLLOW_USER} from "../../graphql/Mutations";
-import {GET_USER_FOLLOWING} from "../../graphql/Queries";
+import {GET_FOLLOWING_PHOTOS, GET_USER_FOLLOWING} from "../../graphql/Queries";
 
 export const FollowButton = ({targetUser}) => {
     const {currUser} = useContext(AppContext);
@@ -30,7 +30,9 @@ export const FollowButton = ({targetUser}) => {
                 }
             })
         },
-        refetchQueries: [{query: GET_USER_FOLLOWING, variables: {userId: currUser.userId}}]
+        refetchQueries: [{query: GET_USER_FOLLOWING, variables: {userId: currUser.userId}},
+            {query: GET_FOLLOWING_PHOTOS, variables: {userId: currUser.userId}}
+        ]
     });
 
     const handleClickFollow = (userId) => {

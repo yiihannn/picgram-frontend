@@ -13,6 +13,8 @@ import {PhotoPage} from "../photoPage/PhotoPage";
 import Box from "@mui/material/Box";
 import {UploadPhoto} from "../uploadPhoto/UploadPhoto";
 import {FollowPage} from "./FollowPage";
+import {Loading} from "../others/Loading";
+import {QueryError} from "../others/QueryError";
 
 
 const theme = createTheme();
@@ -57,8 +59,8 @@ export const UserPage = () => {
     const {loading: userLoading, error: userInfoError, data: userData} = useQuery(GET_USER_INFO, {
         variables: {userId: userId},
     });
-    if (userLoading) return <div>Loading...</div>;
-    if (userInfoError) return `Error in fetching user! ${userInfoError}`;
+    if (userLoading) return <Loading/>;
+    if (userInfoError) return <QueryError errorMessage={userInfoError}/>;
 
     const photos = userData.user.userPhotos?.edges;
     const profile = userData.user.profile;

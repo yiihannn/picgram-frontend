@@ -6,6 +6,8 @@ import {PhotoOwner} from "./PhotoOwner";
 import {PhotoComments} from "./PhotoComments";
 import {ReactionBar} from "./ReactionBar";
 import {MakeComment} from "./MakeComment";
+import {Loading} from "../others/Loading";
+import {QueryError} from "../others/QueryError";
 
 
 const style = {
@@ -24,8 +26,8 @@ export const PhotoPage = ({photoId}) => {
     const {loading: photoLoading, error: photoInfoError, data: photoData}
         = useQuery(GET_PHOTO_DETAILS, {variables: {photoId: photoId}});
 
-    if (photoLoading) return <div>Loading...</div>;
-    if (photoInfoError) return `Error in fetching user! ${photoInfoError}`;
+    if (photoLoading) return <Loading/>;
+    if (photoInfoError) return <QueryError errorMessage={photoInfoError}/>;
 
     const comments = photoData.photo.commentSet.edges;
 

@@ -99,6 +99,20 @@ type UserNode implements Node {
   userLikesPhoto(offset: Int, before: String, after: String, first: Int, last: Int): PhotoNodeConnection!
   mentionedByPhoto(offset: Int, before: String, after: String, first: Int, last: Int): PhotoNodeConnection!
   activitySet(offset: Int, before: String, after: String, first: Int, last: Int, id: ID, user: ID, category: String): ActivityNodeConnection!
+  followingPhotos(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+    id: ID
+    user: ID
+    userIn: String
+    tagsContain: String
+
+    """Ordering"""
+    orderBy: String
+  ): PhotoNodeConnection
   isFollowedByCurr: Boolean
 }
 

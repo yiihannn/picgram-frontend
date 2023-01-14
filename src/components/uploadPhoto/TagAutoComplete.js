@@ -17,7 +17,7 @@ export const TagAutoComplete = ({value, setValue}) => {
 
     return (
         <Autocomplete
-            sx={{mr: 2}}
+            sx={{mr: 1}}
             value={value}
             onChange={(event, newValue) => {
                 if (typeof newValue === 'string') {

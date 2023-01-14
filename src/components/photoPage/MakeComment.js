@@ -1,4 +1,4 @@
-import {Alert} from "@mui/material";
+import {Alert, Snackbar} from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -56,7 +56,10 @@ export const MakeComment = ({photoId}) => {
              }}>
 
             {errors.customError?.message && (
-                <Alert severity="error">{errors.customError?.message}</Alert>)}
+                <Snackbar open autoHideDuration={6000}>
+                    <Alert severity="error">{errors.customError?.message}</Alert>
+                </Snackbar>
+                )}
             <TextField
                 inputProps={{
                     ...register("content",

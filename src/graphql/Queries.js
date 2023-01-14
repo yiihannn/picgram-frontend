@@ -135,38 +135,41 @@ export const GET_FOLLOWING_LIST = gql`
 `
 
 export const GET_FOLLOWING_PHOTOS = gql`
-    query followingPhotos($followingUserIds: String) {
-        getPhotos(userIn: $followingUserIds, orderBy: "-date_time") {
-            edges {
-                node {
-                    id
-                    photoUrl
-                    dateTime
-                    likedCount
-                    isLikedByCurr
-                    caption
-                    location
-                    user{
+    query followingPhotos($userId: ID!) {
+        user(id: $userId) {
+            id
+            followingPhotos{
+                edges {
+                    node {
                         id
-                        username
-                        firstName
-                        lastName
-                        profile {
+                        photoUrl
+                        dateTime
+                        likedCount
+                        isLikedByCurr
+                        caption
+                        location
+                        user{
                             id
-                            avatarUrl
-                        }
-                    }
-                    commentSet{
-                        edges {
-                            node {
+                            username
+                            firstName
+                            lastName
+                            profile {
                                 id
-                                comment
-                                user {
+                                avatarUrl
+                            }
+                        }
+                        commentSet{
+                            edges {
+                                node {
                                     id
-                                    username
-                                    profile {
+                                    comment
+                                    user {
                                         id
-                                        avatarUrl
+                                        username
+                                        profile {
+                                            id
+                                            avatarUrl
+                                        }
                                     }
                                 }
                             }

@@ -5,11 +5,13 @@ import {createTheme} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import {PhotoPage} from "../photoPage/PhotoPage";
 import {useState} from "react";
+import {Loading} from "../others/Loading";
+import {QueryError} from "../others/QueryError";
 
 const theme = createTheme();
 
 
-export const Explore = () => {
+export const ExplorePage = () => {
     const belowXS = useMediaQuery(theme.breakpoints.down('xs'));
     const XStoSM = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
     const SMtoMD = useMediaQuery(theme.breakpoints.between('sm', 'md'));
@@ -34,12 +36,14 @@ export const Explore = () => {
 
     const {loading: photoListLoading, error: photoListError, data: photoListData} = useQuery(GET_ALL_PHOTOS);
 
-    if (photoListLoading) return <div>Loading...</div>;
-    if (photoListError) return `Error in fetching photo list! ${photoListError}`;
+    if (photoListLoading) return <Loading/>;
+    console.log(photoListError);
+    if (photoListError) return <QueryError errorMessage={photoListError}/>;
 
     const photos = photoListData.getPhotos.edges;
 
     return (
+        (photoListData &&
         <ThemeProvider theme={theme}>
             <Box sx={{m: 5, mt: 0}}>
                 <ImageList variant="masonry" cols={numOfCols} gap={8}>
@@ -64,6 +68,6 @@ export const Explore = () => {
             >
                 <Box><PhotoPage photoId={openedPhoto}/></Box>
             </Modal>
-        </ThemeProvider>
+        </ThemeProvider>)
     )
 }

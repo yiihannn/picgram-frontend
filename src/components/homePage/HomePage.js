@@ -1,15 +1,14 @@
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {AppContext} from "../../App";
-import {useLazyQuery, useQuery} from "@apollo/client";
+import {useQuery} from "@apollo/client";
 import {GET_FOLLOWING_LIST, GET_FOLLOWING_PHOTOS} from "../../graphql/Queries";
 import {Loading} from "../others/Loading";
 import {QueryError} from "../others/QueryError";
 import {PhotoCard} from "./PhotoCard";
 import Container from "@mui/material/Container";
-import {Modal, Stack} from "@mui/material";
-import {useState} from "react";
+import {Modal, Stack, Typography} from "@mui/material";
 import {PhotoPage} from "../photoPage/PhotoPage";
 import {FollowingList} from "./FollowingList";
 import Paper from "@mui/material/Paper";
@@ -18,19 +17,11 @@ const theme = createTheme();
 
 export const HomePage = () => {
     const {currUser} = useContext(AppContext);
-    const [getFollowingPhotos, {
-        loading: followingPhotosLoading, error: followingPhotosError, data: followingPhotosData
-    }] = useLazyQuery(GET_FOLLOWING_PHOTOS);
+    const {loading: followingPhotosLoading, error: followingPhotosError, data: followingPhotosData
+    } = useQuery(GET_FOLLOWING_PHOTOS, {variables: {userId: currUser.userId}});
 
     const {loading: followingListLoading, error: followingListError, data: followingListData} = useQuery(
-        GET_FOLLOWING_LIST, {
-            variables: {userId: currUser.userId},
-            onCompleted(data) {
-                const following = data.user.followingUser.edges;
-                const followingUserIds = following.map(edge => edge.node.user.id).concat(currUser.userId).join(",");
-                getFollowingPhotos({variables: {followingUserIds: followingUserIds}});
-            }
-        });
+        GET_FOLLOWING_LIST, {variables: {userId: currUser.userId}});
 
     const [open, setOpen] = useState(false);
     const [openedPhoto, setOpenedPhoto] = useState(null);
@@ -48,7 +39,7 @@ export const HomePage = () => {
     if (followingPhotosError) return <Box><QueryError errorMessage={followingPhotosError}/></Box>
 
     const followingUsers = followingListData.user.followingUser.edges.map(edge => edge.node.user);
-    const followingPhotos = followingPhotosData?.getPhotos.edges;
+    const followingPhotos = followingPhotosData?.user.followingPhotos.edges;
 
     return (
         <ThemeProvider theme={theme}>
@@ -59,7 +50,7 @@ export const HomePage = () => {
                     alignItems: 'flex-start',
                     justifyContent: 'space-around'
                 }}>
-                    {followingPhotos &&
+                    {followingPhotos.length === 0 ? <Typography sx={{fontSize: 20, pt: 4}}>No Followings' Activities.</Typography> :
                         <Stack direction="column" spacing={2} sx={{height: 1, mr: 1}}>
                             {followingPhotos.map((edge, index) =>
                                 <PhotoCard key={index} index={index} photoData={edge.node} handleOpen={handleOpen}/>)}

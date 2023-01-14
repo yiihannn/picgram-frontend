@@ -13,7 +13,7 @@ import {LoginRegister} from "./components/loginRegister/LoginRegister";
 import {UserPage} from "./components/userPage/UserPage";
 import {HomePage} from "./components/homePage/HomePage";
 import {SearchPage} from "./components/searchPage/SearchPage";
-import {Explore} from "./components/explorePage/Explore";
+import {ExplorePage} from "./components/explorePage/ExplorePage";
 import {EditProfile} from "./components/editProfile/EditProfile";
 
 export const AppContext = createContext();
@@ -31,7 +31,8 @@ function App() {
                 }
             }
         }),
-        link: createUploadLink()
+        link: createUploadLink(),
+        connectToDevTools: true
     });
 
     const [currPage, setCurrPage] = useState("");
@@ -51,7 +52,7 @@ function App() {
                     {currUser !== null && <TopBar/>}
                     <Routes>
                         <Route path="/" element={<Navigate to="/explore"/>}/>
-                        <Route path="/explore" element={currUser ? <Explore/> : <Navigate to="/login-register" replace={true}/>}/>
+                        <Route path="/explore" element={currUser ? <ExplorePage/> : <Navigate to="/login-register" replace={true}/>}/>
                         <Route path="/login-register" element={<LoginRegister/>}/>
                         <Route path="/user/:userId" element={currUser ? <UserPage/> : <Navigate to="/login-register" replace={true}/>}/>
                         <Route path="/home/:userId" element={currUser ? <HomePage/> : <Navigate to="/login-register" replace={true}/>}/>
