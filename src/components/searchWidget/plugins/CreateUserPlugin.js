@@ -7,7 +7,7 @@ const appId = '7CI3VTUHVV';
 const apiKey = 'd7185cba8ed52d76b61e0a2a17deeade';
 const searchClient = algoliasearch(appId, apiKey);
 
-export const createUserPlugin = (sourceId, indexName) => {
+export const CreateUserPlugin = (sourceId, indexName) => {
     return {
         getSources({ query }) {
             return [
