@@ -104,7 +104,7 @@ export const TopBar = () => {
                 </Box>
                 <Box sx={{
                     ml: 2, mr: 2,
-                    flexGrow: 1, display: 'flex', flexDirection: 'row',
+                    flexGrow: 1, display: 'flex', flexDirection: 'column',
                     alignItems: 'center', justifyContent: 'flex-start',
                 }}>
                     <SearchAutoComplete/>

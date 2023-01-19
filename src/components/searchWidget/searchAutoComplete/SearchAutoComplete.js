@@ -1,21 +1,22 @@
 import {autocomplete} from '@algolia/autocomplete-js';
-import React, { createElement, Fragment, useEffect, useRef } from 'react';
-import { createRoot } from 'react-dom/client';
+import React, {createElement, Fragment, useEffect, useRef} from 'react';
+import {createRoot} from 'react-dom/client';
 import Box from "@mui/material/Box";
-import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+import {createAlgoliaInsightsPlugin} from '@algolia/autocomplete-plugin-algolia-insights';
 import insightsClient from 'search-insights';
 import {createUserPlugin} from "../plugins/userPlugin";
-import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+import {createLocalStorageRecentSearchesPlugin} from '@algolia/autocomplete-plugin-recent-searches';
+import {createSearchParams, useNavigate} from "react-router-dom";
 
 
 const appId = '7CI3VTUHVV';
 const apiKey = 'd7185cba8ed52d76b61e0a2a17deeade';
 
-insightsClient('init', { appId, apiKey, useCookie: true });
+insightsClient('init', {appId, apiKey, useCookie: true});
 
-const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({insightsClient});
 
-function highlight({ item, query }) {
+function highlight({item, query}) {
     return {
         ...item,
         _highlightResult: {
@@ -34,26 +35,43 @@ function highlight({ item, query }) {
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
     key: 'navbar',
     limit: 3,
-    search({ query, items, limit }) {
+    search({query, items, limit}) {
         if (!query) {
-            return items.slice(0, limit).map((item) => highlight({ item, query }));
+            return items.slice(0, limit).map((item) => highlight({item, query}));
         }
 
         return items
             .filter((item) => item.label.toLowerCase().includes(query.toLowerCase()))
             .slice(0, limit)
-            .map((item) => highlight({ item, query }));
-    }
+            .map((item) => highlight({item, query}));
+    },
+    transformSource({source}) {
+        return {
+            ...source,
+            getItemUrl({item}) {
+                return `/search?query=${item.query}`;
+            },
+            templates: {
+                item(params) {
+                    const {item, html} = params;
+                    // onclick()
+                    return html`<a class="aa-ItemLink" href="/search?query=${item.label}&category=user">
+                        ${source.templates.item(params).props.children}
+                    </a>`;
+                },
+            },
+        };
+    },
 });
 
 const userPlugin = createUserPlugin('users', 'photo_sharing_user_dev');
-
 
 
 export function SearchAutoComplete(props) {
     const containerRef = useRef(null);
     const panelRootRef = useRef(null);
     const rootRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!containerRef.current) {
@@ -64,8 +82,18 @@ export function SearchAutoComplete(props) {
             container: containerRef.current,
             placeholder: 'Search...',
             openOnFocus: true,
-            renderer: { createElement, Fragment, render: () => {} },
-            render({ children }, root) {
+            onSubmit(params) {
+                const searchParams = {query: params.state.query, category: 'user'};
+                navigate({
+                    pathname: 'search',
+                    search: `?${createSearchParams(searchParams)}`
+                })
+            },
+            renderer: {
+                createElement, Fragment, render: () => {
+                }
+            },
+            render({children}, root) {
                 if (!panelRootRef.current || rootRef.current !== root) {
                     rootRef.current = root;
 
@@ -83,7 +111,7 @@ export function SearchAutoComplete(props) {
         return () => {
             search.destroy();
         };
-    }, [props]);
+    }, [props, navigate]);
 
     return <Box ref={containerRef} width="100%"/>;
 }

@@ -12,9 +12,9 @@ import { createUploadLink } from "apollo-upload-client";
 import {LoginRegister} from "./components/loginRegister/LoginRegister";
 import {UserPage} from "./components/userPage/UserPage";
 import {HomePage} from "./components/homePage/HomePage";
-import {SearchPage} from "./components/searchPage/SearchPage";
 import {ExplorePage} from "./components/explorePage/ExplorePage";
 import {EditProfile} from "./components/editProfile/EditProfile";
+import {InstantSearchPage} from "./components/searchWidget/instantSearchPage/InstantSearchPage";
 
 export const AppContext = createContext();
 
@@ -56,7 +56,7 @@ function App() {
                         <Route path="/login-register" element={<LoginRegister/>}/>
                         <Route path="/user/:userId" element={currUser ? <UserPage/> : <Navigate to="/login-register" replace={true}/>}/>
                         <Route path="/home/:userId" element={currUser ? <HomePage/> : <Navigate to="/login-register" replace={true}/>}/>
-                        <Route path="/search" element={currUser ? <SearchPage/> : <Navigate to="/login-register" replace={true}/>}/>
+                        <Route path="/search" element={currUser ? <InstantSearchPage/> : <Navigate to="/login-register" replace={true}/>}/>
                         <Route path="/edit-profile" element={currUser ? <EditProfile/> : <Navigate to="/login-register" replace={true}/>}/>
                     </Routes>
                 </BrowserRouter>
