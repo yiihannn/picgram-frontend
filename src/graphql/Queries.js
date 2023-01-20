@@ -285,3 +285,12 @@ export const GET_USER_PROFILE = gql`
         }
     }
 `
+
+export const SEARCH_USER = gql`
+    query searchUser($userId: ID!) {
+        user(id: $userId){
+            id
+            isFollowedByCurr
+        }
+    }
+`
