@@ -20,7 +20,7 @@ export const PhotoSearchHits = () => {
     const handleClose = () => setOpen(false);
 
     return (
-        hits.length === 0 ? <Typography sx={{fontSize: 20}}>No user is found</Typography> :
+        hits.length === 0 ? <Typography sx={{fontSize: 20}}>No photo is found</Typography> :
         <ThemeProvider theme={theme}>
             <Stack sx={{
                 alignItems: 'center',
