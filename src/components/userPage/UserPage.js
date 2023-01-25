@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useQuery} from "@apollo/client";
 import {GET_USER_INFO} from "../../graphql/Queries";
@@ -61,7 +61,7 @@ export const UserPage = () => {
     const handleOpenChangeAvatar = () => setOpenChangeAvatar(true);
     const handleCloseChangeAvatar = () => setOpenChangeAvatar(false);
 
-    const {userId} = useParams();
+    const userId = window.location.pathname.split("/")[2];
     const {loading: userLoading, error: userInfoError, data: userData} = useQuery(GET_USER_INFO, {
         variables: {userId: userId},
     });
