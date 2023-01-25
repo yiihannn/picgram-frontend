@@ -68,9 +68,9 @@ export const UserPage = () => {
     if (userLoading) return <Loading/>;
     if (userInfoError) return <QueryError errorMessage={userInfoError}/>;
 
-    const photos = userData.user.userPhotos?.edges;
-    const profile = userData.user.profile;
-    const name = userData.user.firstName + " " + userData.user.lastName;
+    const photos = userData?.user?.userPhotos?.edges;
+    const profile = userData?.user?.profile;
+    const name = userData?.user?.firstName + " " + userData?.user?.lastName;
 
     return (
         (userData &&
