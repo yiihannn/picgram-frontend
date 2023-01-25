@@ -18,7 +18,7 @@ export const PhotoOwner = ({owner, time}) => {
     }
 
     return (
-        <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", pr: 2}}>
+        <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
             <List component="span" sx={{width: 1, pb: 0}}>
                 <ListItem sx={{pt: 0}}>
                     <ListItemAvatar>

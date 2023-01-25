@@ -1,6 +1,6 @@
 import {useQuery} from "@apollo/client";
 import {GET_PHOTO_DETAILS} from "../../graphql/Queries";
-import {CardMedia, Divider, Stack} from "@mui/material";
+import {Divider, Stack} from "@mui/material";
 import Box from "@mui/material/Box";
 import {PhotoOwner} from "./PhotoOwner";
 import {PhotoComments} from "./PhotoComments";
@@ -18,9 +18,11 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 0.6,
     height: 0.8,
+    p: 3,
+    pl: 2,
     backgroundColor: 'white',
     boxShadow: "none",
-    borderRadius: 10,
+    borderRadius: 6,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -34,22 +36,27 @@ export const PhotoPage = ({photoId}) => {
     if (photoLoading) return <Loading/>;
     if (photoInfoError) return <QueryError errorMessage={photoInfoError}/>;
 
-    const comments = photoData.photo.commentSet.edges;
+    const comments = photoData?.photo?.commentSet?.edges;
 
     return (
+        (photoData &&
         <Paper sx={style}>
             <Box sx={{
-                width: 0.5, height: 1, backgroundColor: 'black',
-                borderBottomLeftRadius: 'inherit', borderTopLeftRadius: 'inherit'
+                width: 0.5, height: 1, m: 1, backgroundColor: 'black',
+                display: "flex", flexFlow: "column",
+                alignItems: "center", justifyContent: "center",
+                "&:hover": {
+                    cursor: "pointer",
+                }
             }}>
-                <CardMedia
-                    component={"img"}
-                    src={`${photoData.photo.photoUrl}`}
-                    sx={{width: '100%', height: '100%', objectFit: 'contain', border: 'none'}}
+                <img
+                    src={`${photoData.photo.photoUrl}`} alt=""
+                    width="100%" height="100%" style={{objectFit: "contain"}}
+                    className="image"
                 />
             </Box>
             <Stack sx={{width: 0.5, height: 1}}>
-                <Box sx={{width: 1, height: 0.12}}>
+                <Box sx={{width: 1, height: 0.1}}>
                     <PhotoOwner owner={photoData.photo.user} time={photoData.photo.dateTime}/>
                 </Box>
                 <Divider sx={{mb: 1}}/>
@@ -58,11 +65,11 @@ export const PhotoPage = ({photoId}) => {
                     <ReactionBar isLikedByCurr={photoData.photo.isLikedByCurr} likedCount={photoData.photo.likedCount}
                                  commentsCount={comments.length} photoId={photoData.photo.id}/>
                 </Box>
-                <Box sx={{width: 1, mb: 2}}>
+                <Box sx={{width: 1}}>
                     <MakeComment photoId={photoData.photo.id}/>
                 </Box>
             </Stack>
-        </Paper>
+        </Paper>)
     )
 }
 

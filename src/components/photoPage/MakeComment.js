@@ -51,7 +51,7 @@ export const MakeComment = ({photoId}) => {
                  clearErrors(["content", "customError"]);
              })}
              sx={{
-                 border: '1px solid black', borderRadius: '26px', p: 0.5, mr: 3, ml: 2,
+                 border: '1px solid black', borderRadius: '26px', p: 0.5, ml: 2,
                  display: 'flex', flexDirection: 'row', alignItems: "center",
              }}>
 
