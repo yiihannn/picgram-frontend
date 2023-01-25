@@ -68,13 +68,13 @@ export function InstantSearchPage() {
                 </Box>
             </Box>
             <Box>
-                <InstantSearch searchClient={searchClient} indexName="photo_sharing_photo_dev">
+                <InstantSearch searchClient={searchClient} indexName={process.env.REACT_APP_USER_INDEX}>
                     <SearchBox/>
-                    {category === 'user' && <Index indexName="photo_sharing_user_dev">
+                    {category === 'user' && <Index indexName={process.env.REACT_APP_USER_INDEX}>
                         <UserSearchHits/>
                     </Index>}
 
-                    {category === 'photo' && <Index indexName="photo_sharing_photo_dev">
+                    {category === 'photo' && <Index indexName={process.env.REACT_APP_PHOTO_INDEX}>
                         <PhotoSearchHits/>
                     </Index>}
 

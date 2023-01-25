@@ -16,7 +16,7 @@ insightsClient('init', {appId, apiKey, useCookie: true});
 
 const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({insightsClient});
 
-const userPlugin = CreateUserPlugin('users', 'photo_sharing_user_dev');
+const userPlugin = CreateUserPlugin('users', process.env.REACT_APP_USER_INDEX);
 
 
 export function SearchAutoComplete(props) {

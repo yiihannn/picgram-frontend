@@ -30,7 +30,6 @@ import {TagAutoComplete} from "./TagAutoComplete";
 import {useNavigate} from "react-router-dom";
 import imageCompression from 'browser-image-compression'
 import {Loading} from "../others/Loading";
-import {QueryError} from "../others/QueryError";
 import Paper from "@mui/material/Paper";
 
 const style = {
@@ -94,10 +93,13 @@ export const UploadPhoto = ({closeModal}) => {
         refetchQueries: [{query: GET_USER_INFO, variables: {userId: currUser.userId}}, {query: GET_ALL_PHOTOS}]
     });
 
-    const {loading, error, data} = useQuery(GET_CURR_USER)
+    const {loading, data} = useQuery(GET_CURR_USER, {
+        onError() {
+            navigate("/login-register");
+        }
+    })
 
     if (loading) return <Loading/>
-    if (error) return <QueryError errorMessage={error}/>
 
     return (
         (data &&

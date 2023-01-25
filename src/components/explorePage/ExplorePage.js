@@ -10,7 +10,6 @@ import {QueryError} from "../others/QueryError";
 
 const theme = createTheme();
 
-
 export const ExplorePage = () => {
     const belowXS = useMediaQuery(theme.breakpoints.down('xs'));
     const XStoSM = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
