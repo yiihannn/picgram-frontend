@@ -9,6 +9,6 @@ export const FollowButtonUseId = ({targetUserId}) => {
     if (loading) return <Loading/>;
     if (error) return <QueryError errorMessage={error}/>;
     return (
-        (data && <FollowButton targetUser={data.user}/>)
+        (data?.user && <FollowButton targetUser={data.user}/>)
     )
 }

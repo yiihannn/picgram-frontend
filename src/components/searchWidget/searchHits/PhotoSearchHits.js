@@ -1,6 +1,6 @@
 import {useHits} from "react-instantsearch-hooks-web";
 import Box from "@mui/material/Box";
-import {ImageList, ImageListItem, Modal, Stack, ThemeProvider, useMediaQuery} from "@mui/material";
+import {ImageList, ImageListItem, Modal, Stack, ThemeProvider, Typography, useMediaQuery} from "@mui/material";
 import {createTheme} from "@mui/material/styles";
 import {PhotoPage} from "../../photoPage/PhotoPage";
 import {useState} from "react";
@@ -20,6 +20,7 @@ export const PhotoSearchHits = () => {
     const handleClose = () => setOpen(false);
 
     return (
+        hits.length === 0 ? <Typography sx={{fontSize: 20}}>No user is found</Typography> :
         <ThemeProvider theme={theme}>
             <Stack sx={{
                 alignItems: 'center',
@@ -46,6 +47,5 @@ export const PhotoSearchHits = () => {
                 </Box>
             </Modal>
         </ThemeProvider>
-
     )
 }
