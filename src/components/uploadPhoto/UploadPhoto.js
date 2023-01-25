@@ -114,7 +114,6 @@ export const UploadPhoto = ({closeModal}) => {
                            }
                            try {
                                data.uploadPhoto = await imageCompression(data.uploadPhoto[0], options);
-                               console.log(`compressedFile size ${data.uploadPhoto.size / 1024 / 1024} MB`);
                            } catch (error) {
                                console.log(error);
                            }

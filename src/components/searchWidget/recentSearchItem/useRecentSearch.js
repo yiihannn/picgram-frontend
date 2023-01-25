@@ -39,7 +39,6 @@ export function useRecentSearch() {
             return {
                 ...source,
                 onSelect(params) {
-                    console.log("log: ", params);
                     const searchParams = {query: params.item.label, category: 'user'};
                     navigate({
                         pathname: 'search',

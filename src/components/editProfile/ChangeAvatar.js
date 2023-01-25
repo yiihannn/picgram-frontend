@@ -34,13 +34,11 @@ export const ChangeAvatar = ({closeModal}) => {
 
     const handleFileSelected = async (event) => {
         const file = event.target.files[0];
-        console.log(file);
         const options = {
             maxSizeMB: 0.8,
         }
         try {
             const compressedPhoto = await imageCompression(file, options);
-            console.log(`compressedFile size ${compressedPhoto.size / 1024 / 1024} MB`);
             userChangeAvatar({variables: {avatarInput: {newAvatar: compressedPhoto}}});
             closeModal();
         } catch (error) {

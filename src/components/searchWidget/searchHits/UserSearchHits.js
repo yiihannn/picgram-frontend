@@ -17,7 +17,7 @@ export const UserSearchHits = () => {
                 justifyContent: 'center', width: '600px'
             }}>
                 {hits.map((user, index) => (
-                    <Box component="button"
+                    <Box key={index + "item"}
                          onClick={() => {
                              navigate('/user/' + user.global_id)
                          }}
@@ -26,7 +26,7 @@ export const UserSearchHits = () => {
                              justifyContent: 'center', width: 1, border: 'none', backgroundColor: 'white',
                              '&:hover': {cursor: 'pointer', backgroundColor: 'rgba(217,217,209,0.33)'}
                          }}>
-                        <ListItem key={index} sx={{p: 0}}>
+                        <ListItem key={index} sx={{p: 0, pl: 1, width: "220px"}}>
                             <ListItemAvatar>
                                 <Avatar alt="" src={`${user.avatar_url}`}/>
                             </ListItemAvatar>
@@ -37,15 +37,15 @@ export const UserSearchHits = () => {
                                               fontSize: 15
                                           }}/>
                         </ListItem>
-                        <ListItem button="false" key={index + 'description'} width="270px">
+                        <Box key={index + 'description'} width="270px">
                             <ListItemText primary={user.description} primaryTypographyProps={{
                                 color: "text.secondary",
                                 fontFamily: 'Arial',
                                 fontWeight: 'medium',
                                 fontSize: 16
                             }}/>
-                        </ListItem>
-                        <ListItemIcon width="130px" key={index + 'followButton'}>
+                        </Box>
+                        <ListItemIcon key={index + 'followButton'} sx={{width: "130px", pr: 1}}>
                             <FollowButtonUseId targetUserId={user.global_id}/>
                         </ListItemIcon>
                     </Box>

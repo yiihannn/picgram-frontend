@@ -8,6 +8,7 @@ import {ReactionBar} from "./ReactionBar";
 import {MakeComment} from "./MakeComment";
 import {Loading} from "../others/Loading";
 import {QueryError} from "../others/QueryError";
+import Paper from "@mui/material/Paper";
 
 
 const style = {
@@ -19,7 +20,11 @@ const style = {
     height: 0.8,
     backgroundColor: 'white',
     boxShadow: "none",
-    borderRadius: 10
+    borderRadius: 10,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
 };
 
 export const PhotoPage = ({photoId}) => {
@@ -32,7 +37,7 @@ export const PhotoPage = ({photoId}) => {
     const comments = photoData.photo.commentSet.edges;
 
     return (
-        <Stack direction="row" sx={style}>
+        <Paper sx={style}>
             <Box sx={{
                 width: 0.5, height: 1, backgroundColor: 'black',
                 borderBottomLeftRadius: 'inherit', borderTopLeftRadius: 'inherit'
@@ -57,7 +62,7 @@ export const PhotoPage = ({photoId}) => {
                     <MakeComment photoId={photoData.photo.id}/>
                 </Box>
             </Stack>
-        </Stack>
+        </Paper>
     )
 }
 

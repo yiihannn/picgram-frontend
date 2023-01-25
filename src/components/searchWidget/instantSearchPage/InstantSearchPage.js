@@ -1,10 +1,12 @@
 import algoliasearch from 'algoliasearch/lite';
-import {Hits, Index, InstantSearch, SearchBox} from 'react-instantsearch-hooks-web';
+import {Index, InstantSearch} from 'react-instantsearch-hooks-web';
 import Box from "@mui/material/Box";
 import {useSearchParams} from "react-router-dom";
 import {UserSearchHits} from "../searchHits/UserSearchHits";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import PhotoIcon from '@mui/icons-material/Photo';
+import {SearchBox} from '../searchBox/SearchBox'
+import {PhotoSearchHits} from "../searchHits/PhotoSearchHits";
 
 
 const appId = '7CI3VTUHVV';
@@ -16,7 +18,6 @@ export function InstantSearchPage() {
     const [searchParams, setSearchParams] = useSearchParams();
     const query = searchParams.get('query');
     const category = searchParams.get('category');
-    console.log('category:', category);
 
     const handleClickCategory = (option) => {
         if (option !== category) {
@@ -68,15 +69,13 @@ export function InstantSearchPage() {
             </Box>
             <Box>
                 <InstantSearch searchClient={searchClient} indexName="photo_sharing_photo_dev">
-                    <Box display="none">
-                        <SearchBox/>
-                    </Box>
+                    <SearchBox/>
                     {category === 'user' && <Index indexName="photo_sharing_user_dev">
                         <UserSearchHits/>
                     </Index>}
 
                     {category === 'photo' && <Index indexName="photo_sharing_photo_dev">
-                        <Hits/>
+                        <PhotoSearchHits/>
                     </Index>}
 
                 </InstantSearch>
