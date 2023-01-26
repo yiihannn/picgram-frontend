@@ -25,7 +25,9 @@ export const PhotoComments = ({comments}) => {
             {comments.map((cmt, i) => (
                 <ListItem alignItems="flex-start" key={i} sx={{pb: 0, pt: 0}}>
                     <ListItemAvatar>
-                        <Avatar alt="" src={`${cmt.node.user.profile.avatarUrl}`}/>
+                        <Avatar alt="" src={`${cmt.node.user.profile.avatarUrl}`}
+                                onClick={() => handleClickUser(cmt.node.user.id)}
+                                sx={{'&: hover': {cursor: 'pointer'}}}/>
                     </ListItemAvatar>
                     <ListItemText
                         primary={cmt.node.user.username}
@@ -44,8 +46,7 @@ export const PhotoComments = ({comments}) => {
                         primaryTypographyProps={{
                             fontFamily: 'Arial',
                             fontWeight: 'bold',
-                            variant: 'body1',
-                            onClick: () => handleClickUser(cmt.node.user.id)
+                            variant: 'body1'
                         }}/>
                 </ListItem>
             ))}

@@ -73,6 +73,7 @@ export const GET_PHOTO_DETAILS = gql`
             }
             photoUrl
             dateTime
+            caption
             likedCount
             isLikedByCurr
             commentSet{

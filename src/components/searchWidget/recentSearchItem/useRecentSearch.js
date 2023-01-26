@@ -39,7 +39,7 @@ export function useRecentSearch() {
             return {
                 ...source,
                 onSelect(params) {
-                    const searchParams = {query: params.item.label, category: 'user'};
+                    const searchParams = {query: params.item.label, category: 'photo'};
                     navigate({
                         pathname: 'search',
                         search: `?${createSearchParams(searchParams)}`

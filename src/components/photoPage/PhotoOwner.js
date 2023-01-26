@@ -22,21 +22,22 @@ export const PhotoOwner = ({owner, time}) => {
             <List component="span" sx={{width: 1, pb: 0}}>
                 <ListItem sx={{pt: 0}}>
                     <ListItemAvatar>
-                        <Avatar alt="" src={`${owner.profile.avatarUrl}`}/>
+                        <Avatar alt="" src={`${owner.profile.avatarUrl}`} sx={{'&: hover': {cursor: 'pointer'}}}
+                                onClick={() => handleClickUser(owner.id)}/>
                     </ListItemAvatar>
-                    <ListItemText primary={owner.username} secondary={getTimeDiff(time) + " ago"}
+                    <ListItemText primary={owner.username}
+                                  secondary={getTimeDiff(time) + " ago"}
                                   primaryTypographyProps={{
                                       fontFamily: 'Arial',
                                       fontWeight: 'bold',
                                       fontSize: 16,
                                       height: 19
                                   }}
-                                  onClick={() => handleClickUser(owner.id)}
                     />
                 </ListItem>
             </List>
             {currUser.userId !== owner.id &&
-            <FollowButton targetUser={owner}/>}
+                <FollowButton targetUser={owner}/>}
         </Box>
     )
 }

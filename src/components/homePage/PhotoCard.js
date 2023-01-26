@@ -7,10 +7,16 @@ import {ReactionBar} from "../photoPage/ReactionBar";
 import Paper from "@mui/material/Paper";
 import {CommentsBelow} from "./CommentsBelow";
 import {Fragment} from "react";
+import {useNavigate} from "react-router-dom";
 
 export const PhotoCard = ({index, photoData, handleOpen}) => {
+    const navigate = useNavigate();
 
+    const handleClickUser = (userId) => {
+        navigate("/user/" + userId);
+    }
     const comments = photoData.commentSet.edges;
+
     return (
         <Paper key={index} direction="column" sx={{width: 500, borderRadius: 5}}>
             <Box sx={{
@@ -23,7 +29,9 @@ export const PhotoCard = ({index, photoData, handleOpen}) => {
                 <List sx={{width: 0.8, p: 0, ml: 2}}>
                     <ListItem key="user" sx={{p: 0}}>
                         <ListItemAvatar>
-                            <Avatar alt="" src={`${photoData.user.profile.avatarUrl}`}/>
+                            <Avatar alt="" src={`${photoData.user.profile.avatarUrl}`}
+                                    sx={{'&: hover': {cursor: 'pointer'}}}
+                                    onClick={() => handleClickUser(photoData.user.id)}/>
                         </ListItemAvatar>
                         <ListItemText
                             sx={{p: 0, pt: photoData.location ? 0 : 2.5, m: 0, height: 40}}

@@ -9,6 +9,7 @@ import {MakeComment} from "./MakeComment";
 import {Loading} from "../others/Loading";
 import {QueryError} from "../others/QueryError";
 import Paper from "@mui/material/Paper";
+import {PhotoCaption} from "./PhotoCaption";
 
 
 const style = {
@@ -44,10 +45,7 @@ export const PhotoPage = ({photoId}) => {
             <Box sx={{
                 width: 0.5, height: 1, m: 1, backgroundColor: 'black',
                 display: "flex", flexFlow: "column",
-                alignItems: "center", justifyContent: "center",
-                "&:hover": {
-                    cursor: "pointer",
-                }
+                alignItems: "center", justifyContent: "center"
             }}>
                 <img
                     src={`${photoData.photo.photoUrl}`} alt=""
@@ -59,6 +57,7 @@ export const PhotoPage = ({photoId}) => {
                 <Box sx={{width: 1, height: 0.1, mb: 1}}>
                     <PhotoOwner owner={photoData.photo.user} time={photoData.photo.dateTime}/>
                 </Box>
+                {photoData.photo.caption && <PhotoCaption owner={photoData.photo.user} caption={photoData.photo.caption}/>}
                 <Divider sx={{mb: 1}}/>
                 <PhotoComments comments={comments}/>
                 <Box sx={{width: 1, height: 0.08}}>

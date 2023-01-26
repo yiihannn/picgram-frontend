@@ -5,9 +5,15 @@ import {useQuery} from "@apollo/client";
 import {GET_CURR_USER} from "../../graphql/Queries";
 import {Loading} from "../others/Loading";
 import {QueryError} from "../others/QueryError";
+import {useNavigate} from "react-router-dom";
 
 export const FollowingList = ({users}) => {
     const {loading, error, data} = useQuery(GET_CURR_USER)
+
+    const navigate = useNavigate();
+    const handleClickUser = (userId) => {
+        navigate("/user/" + userId);
+    }
 
     if (loading) return <Loading/>
     if (error) return <QueryError errorMessage={error}/>
@@ -41,7 +47,9 @@ export const FollowingList = ({users}) => {
                 {users.map((user, index) => (
                     <ListItem key={index} sx={{p: 0, pl: 2}}>
                         <ListItemAvatar>
-                            <Avatar alt="" src={`${user.profile.avatarUrl}`}/>
+                            <Avatar alt="" src={`${user.profile.avatarUrl}`}
+                                    sx={{'&: hover': {cursor: 'pointer'}}}
+                                    onClick={() => handleClickUser(user.id)}/>
                         </ListItemAvatar>
                         <ListItemText primary={user.username} secondary={user.firstName + " " + user.lastName}
                                       primaryTypographyProps={{

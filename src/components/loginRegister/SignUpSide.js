@@ -143,7 +143,6 @@ export default function SignUpSide() {
                                         id="username"
                                         label="Username"
                                         autoComplete="username"
-                                        autoFocus
                                         helperText={errors.username?.message}
                                     />
                                 </Grid>

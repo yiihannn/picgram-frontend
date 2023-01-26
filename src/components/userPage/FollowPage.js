@@ -77,7 +77,9 @@ export const FollowPage = ({follow, closeModal}) => {
                     {users.map((user, index) => (
                         <ListItem key={index} sx={{p: 0, pl: 2, pr: 2}}>
                             <ListItemAvatar>
-                                <Avatar alt="" src={`${user.node.user.profile.avatarUrl}`}/>
+                                <Avatar alt="" src={`${user.node.user.profile.avatarUrl}`}
+                                        sx={{'&: hover': {cursor: 'pointer'}}}
+                                        onClick={() => handleClickUser(user.node.user.id)}/>
                             </ListItemAvatar>
                             <ListItemText primary={user.node.user.username}
                                           secondary={user.node.user.firstName + " " + user.node.user.lastName}
@@ -86,7 +88,6 @@ export const FollowPage = ({follow, closeModal}) => {
                                               fontWeight: 'medium',
                                               variant: 'body2',
                                           }}
-                                          onClick={() => handleClickUser(user.node.user.id)}
                             />
                             {user.node.user.id === currUser.userId ?
                                 <Typography sx={{mr: 2, color: "#8e8e8e", fontSize: 16}}>This is you</Typography> :

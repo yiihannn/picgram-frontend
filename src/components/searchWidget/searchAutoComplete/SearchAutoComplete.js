@@ -35,7 +35,7 @@ export function SearchAutoComplete(props) {
             placeholder: 'Search...',
             openOnFocus: true,
             onSubmit(params) {
-                const searchParams = {query: params.state.query, category: 'user'};
+                const searchParams = {query: params.state.query, category: 'photo'};
                 navigate({
                     pathname: 'search',
                     search: `?${createSearchParams(searchParams)}`
