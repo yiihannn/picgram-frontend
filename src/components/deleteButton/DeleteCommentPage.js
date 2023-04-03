@@ -3,10 +3,8 @@ import {ListItem, ListItemButton, ListItemText, Stack} from "@mui/material";
 
 import List from "@mui/material/List";
 import {useMutation} from "@apollo/client";
-import {DELETE_PHOTO} from "../../graphql/Mutations";
-import {GET_ALL_PHOTOS, GET_USER_INFO} from "../../graphql/Queries";
-import {useContext} from "react";
-import {AppContext} from "../../App";
+import {DELETE_COMMENT} from "../../graphql/Mutations";
+import {GET_PHOTO_DETAILS} from "../../graphql/Queries";
 
 
 const style = {
@@ -24,16 +22,14 @@ const style = {
 
 const theme = createTheme();
 
-export const DeletePhotoPage = ({photoId, closePhotoModal, closeDeleteModal}) => {
-    const {currUser} = useContext(AppContext);
-    const [deletePhoto] = useMutation(DELETE_PHOTO, {
-        refetchQueries: [{query: GET_USER_INFO, variables: {userId: currUser.userId}},
-            {query: GET_ALL_PHOTOS}]
+export const DeleteCommentPage = ({photoId, commentId, closeDeleteModal}) => {
+    const [deleteComment] = useMutation(DELETE_COMMENT, {
+        refetchQueries: [{query:GET_PHOTO_DETAILS, variables: {photoId: photoId}}]
     });
 
     const handleClickDelete = () => {
-        deletePhoto({variables: {deletePhotoInput: {photoId: photoId}}});
-        closePhotoModal(false);
+        deleteComment({variables: {deleteCommentInput: {photoId: photoId, commentId: commentId}}});
+        closeDeleteModal(false);
     }
 
     return (
@@ -42,12 +38,12 @@ export const DeletePhotoPage = ({photoId, closePhotoModal, closeDeleteModal}) =>
                 <List sx={{width: 1}}>
                     <ListItem>
                         <ListItemText
-                            primary="Are you sure to delete this photo?"
+                            primary="Are you sure to delete this comment?"
                             primaryTypographyProps={{variant: 'h6', textAlign: "center"}}
                         />
                     </ListItem>
                     <ListItemButton alignItems="center"
-                        onClick={handleClickDelete} sx={{width: 1, color: "#d30c0c", textAlign: "center"}}
+                                    onClick={handleClickDelete} sx={{width: 1, color: "#d30c0c", textAlign: "center"}}
                     >
                         <ListItemText primary="Delete" />
                     </ListItemButton>

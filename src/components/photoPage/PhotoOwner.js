@@ -7,10 +7,10 @@ import {useContext} from "react";
 import {AppContext} from "../../App";
 import {useNavigate} from "react-router-dom";
 import {FollowButton} from "../followButton/FollowButton";
-import {DeleteButton} from "../deleteButton/DeleteButton";
+import {DeletePhotoButton} from "../deleteButton/DeleteButton";
 
 
-export const PhotoOwner = ({owner, time, photoId, openDeletePhoto}) => {
+export const PhotoOwner = ({owner, time, openDeletePhoto}) => {
     const {currUser} = useContext(AppContext);
     const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ export const PhotoOwner = ({owner, time, photoId, openDeletePhoto}) => {
                 </ListItem>
             </List>
             {currUser.userId !== owner.id ? <FollowButton targetUser={owner}/> :
-                <DeleteButton photoId={photoId} openModal={openDeletePhoto}/>}
+                <DeletePhotoButton openModal={openDeletePhoto}/>}
         </Box>
     )
 }

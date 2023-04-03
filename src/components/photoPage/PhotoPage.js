@@ -12,6 +12,7 @@ import Paper from "@mui/material/Paper";
 import {PhotoCaption} from "./PhotoCaption";
 import {useState} from "react";
 import {DeletePhotoPage} from "../deleteButton/DeletePhotoPage";
+import {DeleteCommentPage} from "../deleteButton/DeleteCommentPage";
 
 
 const style = {
@@ -35,10 +36,14 @@ const style = {
 export const PhotoPage = ({photoId, closePhotoModal}) => {
     const {loading: photoLoading, error: photoInfoError, data: photoData}
         = useQuery(GET_PHOTO_DETAILS, {variables: {photoId: photoId}});
-    const [open, setOpen] = useState(false);
+    const [openDeletePhoto, setOpenDeletePhoto] = useState(false);
+    const [openDeleteComment, setOpenDeleteComment] = useState(false);
+    const [deleteCommentId, setDeleteCommentId] = useState(null);
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleOpenDeletePhoto = () => setOpenDeletePhoto(true);
+    const handleCloseDeletePhoto = () => setOpenDeletePhoto(false);
+    const handleOpenDeleteComment = () => setOpenDeleteComment(true);
+    const handleCloseDeleteComment = () => setOpenDeleteComment(false);
 
     if (photoLoading) return <Loading/>;
     if (photoInfoError) return <QueryError errorMessage={photoInfoError}/>;
@@ -62,11 +67,12 @@ export const PhotoPage = ({photoId, closePhotoModal}) => {
             <Stack sx={{width: 0.5, height: 1}}>
                 <Box sx={{width: 1, height: 0.1, mb: 1}}>
                     <PhotoOwner owner={photoData.photo.user} time={photoData.photo.dateTime}
-                                photoId={photoData.photo.id} openDeletePhoto={handleOpen}/>
+                                openDeletePhoto={handleOpenDeletePhoto}/>
                 </Box>
                 {photoData.photo.caption && <PhotoCaption owner={photoData.photo.user} caption={photoData.photo.caption}/>}
                 <Divider sx={{mb: 1}}/>
-                <PhotoComments comments={comments}/>
+                <PhotoComments comments={comments} openDeleteCommentModal={handleOpenDeleteComment}
+                               setCommentId={setDeleteCommentId}/>
                 <Box sx={{width: 1, height: 0.08}}>
                     <ReactionBar isLikedByCurr={photoData.photo.isLikedByCurr} likedCount={photoData.photo.likedCount}
                                  commentsCount={comments.length} photoId={photoData.photo.id}/>
@@ -75,10 +81,16 @@ export const PhotoPage = ({photoId, closePhotoModal}) => {
                     <MakeComment photoId={photoData.photo.id}/>
                 </Box>
             </Stack>
-            <Modal open={open} onClose={handleClose} aria-labelledby="delete-photo-modal">
+            <Modal open={openDeletePhoto} onClose={handleCloseDeletePhoto} aria-labelledby="delete-photo-modal">
                 <Box>
                     <DeletePhotoPage photoId={photoData.photo.id} closePhotoModal={closePhotoModal}
-                                     closeDeleteModal={handleClose}/>
+                                     closeDeleteModal={handleCloseDeletePhoto}/>
+                </Box>
+            </Modal>
+            <Modal open={openDeleteComment} onClose={handleCloseDeleteComment} aria-labelledby="delete-comment-modal">
+                <Box>
+                    <DeleteCommentPage photoId={photoData.photo.id} commentId={deleteCommentId}
+                                       closeDeleteModal={handleCloseDeleteComment}/>
                 </Box>
             </Modal>
         </Paper>)

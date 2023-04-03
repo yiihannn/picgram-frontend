@@ -5,10 +5,14 @@ import {getTimeDiff} from "../utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {useNavigate} from "react-router-dom";
+import {DeleteCommentButton} from "../deleteButton/DeleteButton";
+import {useContext} from "react";
+import {AppContext} from "../../App";
 
 
-export const PhotoComments = ({comments}) => {
+export const PhotoComments = ({comments, openDeleteCommentModal, setCommentId}) => {
     const navigate = useNavigate();
+    const {currUser} = useContext(AppContext);
 
     const handleClickUser = (userId) => {
         navigate("/user/" + userId);
@@ -41,6 +45,11 @@ export const PhotoComments = ({comments}) => {
                                     color: 'text.secondary',
                                     mt: 0.5
                                 }}>{"· " + getTimeDiff(cmt.node.dateTime)}</Typography>
+                                {currUser.userId === cmt.node.user.id &&
+                                    <DeleteCommentButton commentId={cmt.node.id}
+                                                         openModal={openDeleteCommentModal}
+                                                         setCommentId={setCommentId}
+                                    />}
                             </Box>
                         }
                         primaryTypographyProps={{
