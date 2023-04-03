@@ -1,6 +1,6 @@
 import {useQuery} from "@apollo/client";
 import {GET_PHOTO_DETAILS} from "../../graphql/Queries";
-import {Divider, Stack} from "@mui/material";
+import {Divider, Modal, Stack} from "@mui/material";
 import Box from "@mui/material/Box";
 import {PhotoOwner} from "./PhotoOwner";
 import {PhotoComments} from "./PhotoComments";
@@ -10,6 +10,8 @@ import {Loading} from "../others/Loading";
 import {QueryError} from "../others/QueryError";
 import Paper from "@mui/material/Paper";
 import {PhotoCaption} from "./PhotoCaption";
+import {useState} from "react";
+import {DeletePhotoPage} from "../deleteButton/DeletePhotoPage";
 
 
 const style = {
@@ -33,6 +35,10 @@ const style = {
 export const PhotoPage = ({photoId}) => {
     const {loading: photoLoading, error: photoInfoError, data: photoData}
         = useQuery(GET_PHOTO_DETAILS, {variables: {photoId: photoId}});
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     if (photoLoading) return <Loading/>;
     if (photoInfoError) return <QueryError errorMessage={photoInfoError}/>;
@@ -55,7 +61,8 @@ export const PhotoPage = ({photoId}) => {
             </Box>
             <Stack sx={{width: 0.5, height: 1}}>
                 <Box sx={{width: 1, height: 0.1, mb: 1}}>
-                    <PhotoOwner owner={photoData.photo.user} time={photoData.photo.dateTime}/>
+                    <PhotoOwner owner={photoData.photo.user} time={photoData.photo.dateTime}
+                                photoId={photoData.photo.id} openDeletePhoto={handleOpen}/>
                 </Box>
                 {photoData.photo.caption && <PhotoCaption owner={photoData.photo.user} caption={photoData.photo.caption}/>}
                 <Divider sx={{mb: 1}}/>
@@ -68,6 +75,11 @@ export const PhotoPage = ({photoId}) => {
                     <MakeComment photoId={photoData.photo.id}/>
                 </Box>
             </Stack>
+            <Modal open={open} onClose={handleClose} aria-labelledby="delete-photo-modal">
+                <Box>
+                    <DeletePhotoPage photoId={photoData.photo.id} closeModal={handleClose}/>
+                </Box>
+            </Modal>
         </Paper>)
     )
 }
