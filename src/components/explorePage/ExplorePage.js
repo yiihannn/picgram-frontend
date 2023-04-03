@@ -64,7 +64,7 @@ export const ExplorePage = () => {
                 onClose={handleClose}
                 aria-labelledby="image-modal"
             >
-                <Box><PhotoPage photoId={openedPhoto}/></Box>
+                <Box><PhotoPage photoId={openedPhoto} closePhotoModal={handleClose}/></Box>
             </Modal>
         </ThemeProvider>)
     )

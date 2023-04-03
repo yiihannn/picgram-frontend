@@ -180,7 +180,7 @@ export const UserPage = () => {
 
                             <Modal open={open} onClose={handleClose} aria-labelledby="image-modal">
                             <Box>
-                            <PhotoPage photoId={openedPhoto}/>
+                            <PhotoPage photoId={openedPhoto} closePhotoModal={handleClose}/>
                             </Box>
                             </Modal>
                             <Modal open={upload} onClose={handleCloseUpload} aria-labelledby="upload-modal">

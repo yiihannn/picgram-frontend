@@ -43,7 +43,7 @@ export const PhotoSearchHits = () => {
             </Stack>
             <Modal open={open} onClose={handleClose} aria-labelledby="image-modal">
                 <Box>
-                    <PhotoPage photoId={openedPhoto}/>
+                    <PhotoPage photoId={openedPhoto} closePhotoModal={handleClose}/>
                 </Box>
             </Modal>
         </ThemeProvider>

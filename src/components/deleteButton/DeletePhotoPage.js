@@ -2,6 +2,11 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {ListItem, ListItemButton, ListItemText, Stack} from "@mui/material";
 
 import List from "@mui/material/List";
+import {useMutation} from "@apollo/client";
+import {DELETE_PHOTO} from "../../graphql/Mutations";
+import {GET_ALL_PHOTOS, GET_USER_INFO} from "../../graphql/Queries";
+import {useContext} from "react";
+import {AppContext} from "../../App";
 
 
 const style = {
@@ -19,7 +24,17 @@ const style = {
 
 const theme = createTheme();
 
-export const DeletePhotoPage = ({photoId, closeModal}) => {
+export const DeletePhotoPage = ({photoId, closePhotoModal, closeDeleteModal}) => {
+    const {currUser} = useContext(AppContext);
+    const [deletePhoto] = useMutation(DELETE_PHOTO, {
+        refetchQueries: [{query: GET_USER_INFO, variables: {userId: currUser.userId}},
+            {query: GET_ALL_PHOTOS}]
+    });
+
+    const handleClickDelete = () => {
+        deletePhoto({variables: {deletePhotoInput: {photoId: photoId}}});
+        closePhotoModal(false);
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -32,12 +47,12 @@ export const DeletePhotoPage = ({photoId, closeModal}) => {
                         />
                     </ListItem>
                     <ListItemButton alignItems="center"
-                        onClick={() => {closeModal(false)}} sx={{width: 1, color: "#d30c0c", textAlign: "center"}}
+                        onClick={handleClickDelete} sx={{width: 1, color: "#d30c0c", textAlign: "center"}}
                     >
                         <ListItemText primary="Delete" />
                     </ListItemButton>
                     <ListItemButton
-                        onClick={() => {closeModal(false)}} sx={{textAlign: "center"}}
+                        onClick={() => {closeDeleteModal(false)}} sx={{textAlign: "center"}}
                     >
                         <ListItemText primary="Cancel" />
                     </ListItemButton>

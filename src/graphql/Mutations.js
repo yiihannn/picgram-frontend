@@ -108,3 +108,21 @@ export const CHANGE_AVATAR = gql`
         }
     }
 `
+
+export const DELETE_PHOTO = gql`
+    mutation deletePhoto($deletePhotoInput: DeletePhotoInput!) {
+        deletePhoto(input: $deletePhotoInput) {
+            code
+            msg
+        }
+    }
+`
+
+export const DELETE_COMMENT = gql`
+    mutation deleteComment($deleteCommentInput: DeleteCommentInput!) {
+        deleteComment(input: $deleteCommentInput) {
+            code
+            msg
+        }
+    }
+`

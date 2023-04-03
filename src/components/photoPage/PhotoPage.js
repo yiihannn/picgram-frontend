@@ -32,7 +32,7 @@ const style = {
     justifyContent: "center"
 };
 
-export const PhotoPage = ({photoId}) => {
+export const PhotoPage = ({photoId, closePhotoModal}) => {
     const {loading: photoLoading, error: photoInfoError, data: photoData}
         = useQuery(GET_PHOTO_DETAILS, {variables: {photoId: photoId}});
     const [open, setOpen] = useState(false);
@@ -77,7 +77,8 @@ export const PhotoPage = ({photoId}) => {
             </Stack>
             <Modal open={open} onClose={handleClose} aria-labelledby="delete-photo-modal">
                 <Box>
-                    <DeletePhotoPage photoId={photoData.photo.id} closeModal={handleClose}/>
+                    <DeletePhotoPage photoId={photoData.photo.id} closePhotoModal={closePhotoModal}
+                                     closeDeleteModal={handleClose}/>
                 </Box>
             </Modal>
         </Paper>)

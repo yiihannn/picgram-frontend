@@ -64,7 +64,7 @@ export const HomePage = () => {
                         aria-labelledby="image-modal"
                     >
                         <Box>
-                            <PhotoPage photoId={openedPhoto}/>
+                            <PhotoPage photoId={openedPhoto} closePhotoModal={handleClose}/>
                         </Box>
                     </Modal>
                 </Box>
